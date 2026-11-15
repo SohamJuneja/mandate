@@ -6,3 +6,5 @@ cache/
 node_modules/
 broadcast/
 *.log
+web/dist/
+*.tsbuildinfo
