@@ -8,9 +8,11 @@
   "type": "module",
   "private": true,
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "@somnia-chain/markets-sdk": "0.32.1",
     "dotenv": "^18.0.10",
-    "viem": "^2.57.19"
+    "viem": "^2.57.19",
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",

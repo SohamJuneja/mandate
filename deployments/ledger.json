@@ -1,6 +1,6 @@
 {
   "usdsoIntoVaults": "35000000000000000000",
-  "sttGas": "731460324000000000",
+  "sttGas": "886385916000000000",
   "txs": [
     {
       "step": "deployer → leader 10 USDso",
@@ -96,6 +96,54 @@
       "step": "depositor2 → vault.redeem(7.5 shares)",
       "hash": "0x078ee210d905378e53f7a935093b25c0d99fa40082d72084d9e505c00c26a7a2",
       "gasWei": "1296726000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(BTC, SELL, 39000, type 2)",
+      "hash": "0x2087dba052bba2def2dc1efc6de37a1c53e869211442e23f1c1fa9d2970efcbe",
+      "gasWei": "19616742000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(BTC, BUY, 39000, type 2)",
+      "hash": "0x3662ee53750c6b124bfd4b97abe9a3aba4a2ed7b4f05ca696fb108be08f3f3ff",
+      "gasWei": "16120632000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(ETH, BUY, 12000000000000000, type 2)",
+      "hash": "0x01f2d20fc741fdef3c632474193d49effb36be300a7e80eb12c3e8805b3da7a7",
+      "gasWei": "22254936000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(BTC, SELL, 39000, type 2)",
+      "hash": "0x79fd389a059ba916b0a261f31880970759733d035479dbdce32d03b4a7c617c9",
+      "gasWei": "21120420000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(ETH, SELL, 12000000000000000, type 2)",
+      "hash": "0x635d2218b1a80aea0cbaad168493fbf95693c1b85ae03c804821732e1f70e09c",
+      "gasWei": "20838972000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(ETH, SELL, 12000000000000000, type 2)",
+      "hash": "0x006951e9836b25521dc837bed7992ed7079e917d653f056fdf56b3ed99334332",
+      "gasWei": "20603724000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(BTC, BUY, 39000, type 2)",
+      "hash": "0x0b0cd3dd53e7766376037a525736e7d8b88b01f420da48d09fb9949c0c621934",
+      "gasWei": "17224986000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(ETH, BUY, 12000000000000000, type 2)",
+      "hash": "0xee605f5195bfbf450502787872a7580516c78d429d1a72e17b0b264c00bf7746",
+      "gasWei": "17145180000000000",
       "status": "success"
     }
   ]

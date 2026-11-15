@@ -90,3 +90,24 @@ Choices made while working unattended, newest last. Each says what was decided a
 - **D2.5 Simulation gas for unbounded txs.** The first factory deploy attempt stopped in
   simulation with an empty revert: a 3M cap is far below the ~63M a 19 KB deploy costs on Somnia.
   `send()` now estimates first and simulates with the estimate. Nothing was sent in the failed attempt.
+
+## Phase 3
+
+- **D3.1 Strategy.** score = 1-minute momentum (bps, 4 samples × 15 s) − 0.5 × funding (bps per
+  8 h, from `getCurrentFundingRate`, 1e18-scaled → 1e14 = 1 bp). Long above +2, short below −2,
+  else flat. One order per market per cycle. Flips go close first, open on a later cycle. Size =
+  minQty × k with k = 1 + ⌊|score|/2⌋ ≤ 4. A deliberately simple signal: the point is the rails, not
+  the alpha.
+- **D3.2 Pre-check = mirror plus eth_call.** The agent recomputes the vault's checks off-chain
+  (worst-case notional, leverage, reduce-only) to explain refusals, but the authority is an
+  `eth_call` of `vault.trade()` from the leader (10M gas cap). The full size is always tried
+  first, so mandate refusals show in the journal. The agent then steps down to the largest size
+  that passes.
+- **D3.3 Order budget includes flattening.** At most 8 orders in total. The loop stops opening once
+  the remaining budget is only enough to flatten. The run took ~7 of the allowed 20 minutes,
+  because the budget ran out first.
+- **D3.4 MCP server** (`agent/mcp.ts`, stdio) uses the same core. `trade` re-runs the pre-check
+  and refuses to send if it fails, so an LLM leader cannot even pay gas for a mandate violation.
+  stdout is reserved for the protocol; all logs go to stderr.
+- **D3.5 The dry-run journal** from testing the loop is kept separately as
+  `agent/journal-dryrun.jsonl`. `agent/journal.jsonl` is the live run only.

@@ -5,7 +5,7 @@
 | 0 Discovery | ✅ done | docs/INTERFACES.md. Equity formula verified on 4 live accounts (≤12 wei); fork of Hideki works |
 | 1 Contracts + tests | ✅ done | 38/38 tests: 36 unit (mocks, 2 fuzz × 10k runs) + 2 fork (real protocol, pinned block 50,487,900) |
 | 2 Deploy + live evidence | ✅ done | factory + vault live; 11 evidence rows incl. 2 on-chain reverts; evidence/EVIDENCE.md |
-| 3 Leader agent | ⏳ | |
+| 3 Leader agent | ✅ done | 8 live orders via vault.trade(), 3 pre-check refusals journaled, ended flat, NAV 27.4977 → 27.5725; MCP server smoke-tested |
 | 4 Frontend | ⏳ | |
 | 5 Reactivity switch | ⏳ | |
 | 6 Docs | ⏳ | |
@@ -48,3 +48,8 @@
 - On-chain reverts: MarketNotAllowed [0x7fe4b28f…](https://explorer.testnet.somnia.network/tokyo/tx/0x7fe4b28f9ef099401686660232775824bf7d7571b26e33a6614e917908c09990), NotionalCapExceeded(31.79, 25) [0xea703717…](https://explorer.testnet.somnia.network/tokyo/tx/0xea703717dc517a189e7651e333519530be6b309d511d823e1991b07d70998832).
 - depositor2 redeemed 7.5 shares → 7.49938 USDso [0x078ee210…](https://explorer.testnet.somnia.network/tokyo/tx/0x078ee210d905378e53f7a935093b25c0d99fa40082d72084d9e505c00c26a7a2).
 - Every tx with before/after NAV: evidence/EVIDENCE.md. Spend so far: 35 USDso into vaults, 0.73 STT gas.
+
+## Phase 3: leader agent
+
+- agent/leader.ts (core), agent/run.ts (autonomous loop), agent/mcp.ts (MCP: get_vault, get_mandate, propose_trade, trade, cancel), agent/mcp-smoke.ts (PASS).
+- Live run: 8 IOC orders on BTC/ETH, all through vault.trade(), ended flat. NAV 27.4977 → 27.5725 (+0.27%), pps 1.00238. Journal: agent/journal.jsonl (38 lines: 3 precheck_refused NotionalCapExceeded for ×4 sizes, then resized ×3). Tx links in evidence/EVIDENCE.md (Phase 3 section).

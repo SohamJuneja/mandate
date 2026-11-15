@@ -1,6 +1,6 @@
 // Shared plumbing for every Mandate script: chain guard, clients, keys, simulate-then-send,
 // revert decoding, explorer links and the run-wide spend ledger (hard caps).
-import "dotenv/config";
+import { config as loadEnv } from "dotenv";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -24,6 +24,7 @@ import { contractErrorsAbi } from "@somnia-chain/markets-sdk";
 import { hidekiTestnet } from "@somnia-chain/markets-sdk/chains";
 
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+loadEnv({ path: resolve(ROOT, ".env"), quiet: true } as any);
 export const CHAIN_ID = 50383;
 export const HTTP_RPC = "https://api.hideki2.infra.testnet.somnia.network";
 export const WS_RPC = "wss://api.hideki2.infra.testnet.somnia.network/ws";
