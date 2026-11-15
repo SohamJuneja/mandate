@@ -12,7 +12,9 @@
   7. **Buy after the breach (ReduceOnly):** <https://explorer.testnet.somnia.network/tokyo/tx/0x3105fc64b136633fe45b0030c05e5a94662c238a2c54f351eea2f3850b21110e>
 - **Terminal** in `E:\blockchain\mandate`, font size 16. Prepare two commands:
   - `npx tsx agent/run.ts --dry --minutes 1`. `--dry` pre-checks but sends nothing, so no funds move.
-  - `Get-Content agent/journal.jsonl | Select-String precheck_refused`
+  - `Get-Content agent/journal.jsonl | Select-String precheck_refused | Select-Object -First 3`.
+    These are the 3 refusals from the live run. The dry run appends new lines to the same file,
+    so after recording run `git checkout agent/journal.jsonl` to keep the evidence file clean.
 - **VS Code** open at `src/MandateVault.sol`, scrolled to `function trade`.
 - **Claude Code** with the MCP server configured (`npx tsx agent/mcp.ts`). Optional: cut this
   shot if short on time.
