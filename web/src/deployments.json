@@ -1,0 +1,7 @@
+{
+  "chainId": 50383,
+  "marginBank": "0x478769E1177C0773c43A593DCCc4Ad15F15F1394",
+  "collateral": "0xed7993A74dAe1e6656B704A424DcD8711aAf4F72",
+  "factory": "0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58",
+  "appBuilder": "0x6DFa3A03C1a46fC424a57a4c2A11c68c9AfAF80e"
+}
