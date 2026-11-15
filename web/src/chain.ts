@@ -19,7 +19,7 @@ import deployments from "./deployments.json";
 
 export const hideki = defineChain({
   id: 50383,
-  name: "Somnia Hideki Testnet",
+  name: "Somnia Tokyo testnet (Hideki)",
   nativeCurrency: { name: "STT", symbol: "STT", decimals: 18 },
   rpcUrls: { default: { http: ["https://api.hideki2.infra.testnet.somnia.network"], webSocket: ["wss://api.hideki2.infra.testnet.somnia.network/ws"] } },
   blockExplorers: { default: { name: "Somnia Explorer (Tokyo)", url: "https://explorer.testnet.somnia.network/tokyo" } },
@@ -316,7 +316,7 @@ export const walletClient = () => createWalletClient({ chain: hideki, transport:
 /** Simulate (eth_call), estimate (+30%: Somnia's per-byte costs make deploys ~46M), send, wait. */
 export async function write(account: Address, address: Address, abi: Abi, functionName: string, args: unknown[]): Promise<Hex> {
   const id = parseInt(await window.ethereum.request({ method: "eth_chainId" }), 16);
-  if (id !== hideki.id) throw new Error(`Wallet is on chain ${id}; switch to Hideki (50383).`);
+  if (id !== hideki.id) throw new Error(`Wallet is on chain ${id}; switch to Somnia Tokyo testnet (Hideki, chain 50383).`);
   try {
     await client.simulateContract({ account, address, abi, functionName, args } as any);
   } catch (e: any) {

@@ -1,6 +1,6 @@
 # dreamDEX perps — on-chain interfaces Mandate depends on
 
-Hideki testnet (chain 50383), `@somnia-chain/markets-sdk` 0.32.1. Every signature below was
+Somnia Tokyo testnet (Hideki, chain 50383), `@somnia-chain/markets-sdk` 0.32.1. Every signature below was
 taken from the SDK's shipped ABIs (`src/readsAbi.ts`, `src/tradeAbi.ts`, `src/eventsAbi.ts`) and
 then exercised against the live chain, either by `eth_call` (scripts/discover.ts) or by
 executing the real contracts on a Foundry fork of Hideki (test/ForkProbe.t.sol).

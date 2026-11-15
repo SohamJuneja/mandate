@@ -1,6 +1,6 @@
 # Mandate: final report
 
-Unattended run, 2026-11-15. Everything below is on Somnia **Hideki testnet (chain 50383)**. No
+Unattended run, 2026-11-15. Everything below is on **Somnia Tokyo testnet (Hideki, chain 50383)**. No
 transaction was sent to any other chain, and no key was printed or committed.
 
 ## Status by phase

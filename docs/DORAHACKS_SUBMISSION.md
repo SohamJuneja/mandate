@@ -64,7 +64,7 @@ so "trust the leader" is the wrong model.
    against the mandate with `eth_call` and sizes down when refused. An MCP server exposes
    `get_vault`, `get_mandate`, `propose_trade`, `trade` and `cancel` to any agent.
 
-## What's live (Somnia Hideki testnet, chain 50383)
+## What's live on Somnia Tokyo testnet (Hideki, chain 50383)
 
 - **Live app:** <https://sohamjuneja.github.io/mandate/>
 - **Factory:** [`0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58`](https://explorer.testnet.somnia.network/tokyo/address/0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58)

@@ -16,9 +16,9 @@ const PHASES: Record<string, string> = {
   "7": "Phase 7: LLM leader via MCP",
 };
 
-let md = `# Evidence: Mandate on dreamDEX perps (Somnia Hideki testnet, chain 50383)
+let md = `# Evidence: Mandate on dreamDEX perps (Somnia Tokyo testnet (Hideki, chain 50383))
 
-Every row is a real transaction on Hideki (chain id 50383) unless marked *read*. "Reverted
+Every row is a real transaction on Somnia Tokyo testnet (Hideki, chain 50383) unless marked *read*. "Reverted
 (expected)" rows were sent on purpose as real transactions so the refusal has a hash; the decoded
 error comes from replaying the mined tx with \`eth_call\` at the parent block.
 NAV = bank equity (free collateral + uPnL at mark − funding) + locked collateral + vault wallet.

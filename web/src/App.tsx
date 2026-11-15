@@ -60,8 +60,8 @@ export function App() {
           <a href="#/create" className={hash.startsWith("#/create") ? "on" : ""}>Create</a>
         </nav>
         <div className="topbar-right">
-          <span className="chain-pill" title="Somnia Hideki testnet">
-            <span className="dot-live" /> Hideki · 50383
+          <span className="chain-pill" title="Somnia Tokyo testnet (Hideki, chain 50383)">
+            <span className="dot-live" /> Tokyo testnet · 50383
           </span>
           {account ? <span className="wallet mono">{short(account)}</span> : <button className="primary small" onClick={onConnect}>Connect wallet</button>}
         </div>

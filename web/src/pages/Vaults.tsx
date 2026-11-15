@@ -84,7 +84,7 @@ export function VaultsPage() {
           </tbody>
         </table>
       </div>
-      <p className="muted small">Return is share price versus the 1.0000 the vault started at. Data is read live from Somnia Hideki (chain 50383).</p>
+      <p className="muted small">Return is share price versus the 1.0000 the vault started at. Data is read live from Somnia Tokyo testnet (Hideki, chain 50383).</p>
     </div>
   );
 }

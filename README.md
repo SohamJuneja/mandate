@@ -7,11 +7,26 @@ order. The leader has no way to withdraw a cent.
 **▶ Live app: <https://sohamjuneja.github.io/mandate/>** (no backend of our own: state is read from chain; order history comes from the public explorer API)
 · **Video:** `<VIDEO_URL>` · **Posts:** `<X_POST_1>` · `<X_POST_2>` · `<X_POST_3>`
 
-Live on Somnia Hideki testnet (chain 50383): factory
+Live on Somnia Tokyo testnet (Hideki, chain 50383): factory
 [`0x139d…ea58`](https://explorer.testnet.somnia.network/tokyo/address/0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58),
 demo vault [`0x1F3c…D2eF`](https://explorer.testnet.somnia.network/tokyo/address/0x1F3c6D3197b3d0BfE7E8D87AD56Ac2B32E53D2eF).
 
 ![Vault detail](screenshots/vault.png)
+
+## X posts
+
+- `<X_POST_1>`: launch post with the demo video. AI agents can trade your money on dreamDEX, but only inside rules the contract enforces.
+- `<X_POST_2>`: "The refusal is the feature." The vault rejected a ~$32 BTC order against a $25 cap, on chain (`NotionalCapExceeded`).
+- `<X_POST_3>`: Somnia Reactivity as a circuit breaker. A fill crossed the drawdown limit, and the chain called our guard in the same block to latch reduce-only and close the position.
+
+## Who it's for
+
+- **Depositors:** passive exposure to strategies they could not run themselves, with the risk
+  rules enforced on chain instead of promised.
+- **Leaders and bot builders:** turn a bot into a fund. Take outside capital without custody, and
+  earn a performance fee above the high-water mark.
+- **dreamDEX:** deposits and open interest from people who would never trade perps themselves,
+  plus builder-fee flow on every vault order.
 
 ## Judges start here
 
@@ -106,6 +121,8 @@ list is written once in the constructor). There is no owner, admin or upgrade pa
 
 ## Mainnet path
 
+We commit to deploying the factory on dreamDEX perps mainnet at launch and placing orders within 30 days.
+
 1. Point the factory at the mainnet MarginBank. Collateral is read from `getSystemConfig` at
    deploy, so nothing else is hardcoded besides pool addresses.
 2. Audit `MandateVault` / `MandateGuard`, especially NAV under oracle failure, the leverage
@@ -143,20 +160,12 @@ list is written once in the constructor). There is no owner, admin or upgrade pa
 ## Run it
 
 ```bash
-# contracts
-forge build && forge test                      # 41 tests (fork tests use the pinned Hideki block)
-
-# frontend (reads chain; connect any injected wallet on chain 50383)
-cd web && npm install && npm run dev           # http://localhost:5173
-
-# leader agent (needs .env with OPERATOR_PRIVATE_KEY = the vault's leader)
-npm install
-npx tsx agent/run.ts --minutes 15 --max-orders 8      # autonomous loop; add --dry to send nothing
-claude mcp add mandate -- npx tsx E:/blockchain/mandate/agent/mcp.ts   # any MCP client as leader
-npx tsx agent/mcp-smoke.ts                             # read-only MCP check
+forge build && forge test                      # contracts: 41 tests (fork tests pin a Hideki block)
+cd web && npm install && npm run dev           # app: localhost:5173, any wallet on chain 50383
+npm install                                    # agent (needs .env with the leader key, see .env.example)
+npx tsx agent/run.ts --max-orders 8 --dry      # autonomous leader; drop --dry to send real orders
+claude mcp add mandate -- node node_modules/tsx/dist/cli.mjs agent/mcp.ts   # any MCP client as leader
 ```
 
-Repo map: [src/](src/) contracts · [test/](test/) Foundry · [scripts/](scripts/) deploy + evidence ·
-[agent/](agent/) bot + MCP · [web/](web/) frontend · [evidence/](evidence/) tx proof ·
-[docs/](docs/) interfaces, demo script, posts · [feedback/](feedback/) SDK/RPC bug reports ·
-[DECISIONS.md](DECISIONS.md) · [PROGRESS.md](PROGRESS.md) · [REPORT.md](REPORT.md)
+Repo map: [src/](src/) contracts · [test/](test/) tests · [scripts/](scripts/) deploy + evidence · [agent/](agent/) bot + MCP ·
+[web/](web/) app · [evidence/](evidence/) · [docs/](docs/) · [feedback/](feedback/) · [REPORT.md](REPORT.md)
