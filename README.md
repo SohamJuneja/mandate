@@ -4,6 +4,9 @@
 leader, human or AI agent, trades depositors' USDso only inside rules the contract checks on every
 order. The leader has no way to withdraw a cent.
 
+**▶ Live app: <https://sohamjuneja.github.io/mandate/>** (reads straight from chain, no backend)
+· **Video:** `<VIDEO_URL>` · **Posts:** `<X_POST_1>` · `<X_POST_2>` · `<X_POST_3>`
+
 Live on Somnia Hideki testnet (chain 50383): factory
 [`0x139d…ea58`](https://explorer.testnet.somnia.network/tokyo/address/0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58),
 demo vault [`0x1F3c…D2eF`](https://explorer.testnet.somnia.network/tokyo/address/0x1F3c6D3197b3d0BfE7E8D87AD56Ac2B32E53D2eF).
@@ -11,6 +14,26 @@ demo vault [`0x1F3c…D2eF`](https://explorer.testnet.somnia.network/tokyo/addre
 ![Vault detail](screenshots/vault.png)
 
 ## Judges start here
+
+Four proofs, two minutes:
+
+1. **The rules are enforced on chain.** Real transactions that the vault refused:
+   `MarketNotAllowed` (SOL order) and `NotionalCapExceeded` (oversized BTC order), rows 8–9 in
+   [EVIDENCE: Phase 2](evidence/EVIDENCE.md#phase-2-deploy-and-live-evidence), and
+   `ReduceOnly` after the breach, row 10 in
+   [EVIDENCE: Phase 5](evidence/EVIDENCE.md#phase-5-reactivity-safety-switch).
+2. **An AI leader traded inside the lines.** 8 orders, all through `vault.trade()`, in
+   [EVIDENCE: Phase 3](evidence/EVIDENCE.md#phase-3-leader-agent). The agent's journal shows the
+   3 times the mandate refused its intended size (`precheck_refused NotionalCapExceeded`), after
+   which it sized down: [journal line 10](agent/journal.jsonl#L10),
+   [line 15](agent/journal.jsonl#L15), [line 24](agent/journal.jsonl#L24).
+3. **Same-block Somnia Reactivity.** A fill breached the tripwire vault's drawdown limit. In
+   the same block, the chain called `MandateGuard`, which latched reduce-only and closed the
+   position: row 8 in [EVIDENCE: Phase 5](evidence/EVIDENCE.md#phase-5-reactivity-safety-switch),
+   tx [`0xa40b162a…`](https://explorer.testnet.somnia.network/tokyo/tx/0xa40b162a22f33df9e3278ca053016c341e367ed0d47f07f01169ba1473c13964).
+4. **41 passing tests.** 39 against mocks in [test/MandateVault.t.sol](test/MandateVault.t.sol),
+   including 2 fuzz tests run at 10k iterations, and 2 on a fork of Hideki against the real
+   MarginBank in [test/MandateFork.t.sol](test/MandateFork.t.sol). Run `forge test`.
 
 | Criterion | Where to look |
 |---|---|
@@ -90,15 +113,21 @@ list is written once in the constructor). There is no owner, admin or upgrade pa
 3. Fund the reactivity subscription owner (32 SOMI minimum balance), one subscription per vault,
    created by the factory on `createVault`.
 4. Raise the factory bounds (lock, leverage) per market risk, and add per-vault deposit caps.
-5. Ship the MCP server as an npm package so a leader agent needs only a key and a vault address.
+5. **Price-driven risk checks (top roadmap item).** Today the breaker and the leverage cap are
+   re-evaluated on every fill (via Reactivity) and on any public `checkpoint()`. On mainnet, the
+   guard also subscribes to oracle price updates, or a Somnia block-tick/schedule trigger, so that
+   a price move alone trips reduce-only. That closes the gap between fills.
+6. Ship the MCP server as an npm package so a leader agent needs only a key and a vault address.
 
 ## Honest limitations
 
 - **Leverage is checked at order time, at mark.** Price moves after a fill can push real leverage
-  above the cap. That is bounded by the drawdown breaker, not prevented.
+  above the cap. That is bounded by the drawdown breaker, not prevented, and the breaker itself
+  only re-checks on fills or `checkpoint()` (next point).
 - **The reactive breaker needs an event.** Price moves alone emit nothing, so a breach is detected
-  at the next fill on the vault (or any public `checkpoint()`/`poke()`). A periodic subscription
-  (BlockTick/Schedule) or an oracle-update subscription would close that gap, at a gas cost.
+  at the next fill on the vault (or any public `checkpoint()`/`poke()`). Price-driven checks via
+  an oracle-update or block-tick subscription are mainnet-path item 5. They cost gas per trigger,
+  so they were left out of the testnet demo.
 - **NAV depends on the oracle.** If the mark is stale, deposits, redeems and trades revert
   `NavUnavailable` instead of pricing on bad data. Funds cannot move until it recovers.
 - **Redeems need free margin.** With margin locked in positions, large redemptions revert
