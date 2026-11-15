@@ -8,3 +8,7 @@ broadcast/
 *.log
 web/dist/
 *.tsbuildinfo
+video/out/
+video/captures/
+video/public/vo/
+video/public/cap/

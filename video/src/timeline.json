@@ -1,0 +1,77 @@
+{
+ "fps": 30,
+ "xf": 12,
+ "total": 4260,
+ "scenes": [
+  {
+   "id": "s01",
+   "start": 0,
+   "frames": 315,
+   "voStart": 60,
+   "voDur": 7.91
+  },
+  {
+   "id": "s02",
+   "start": 303,
+   "frames": 459,
+   "voStart": 314,
+   "voDur": 14.35
+  },
+  {
+   "id": "s03",
+   "start": 750,
+   "frames": 306,
+   "voStart": 761,
+   "voDur": 9.254
+  },
+  {
+   "id": "s04",
+   "start": 1044,
+   "frames": 449,
+   "voStart": 1055,
+   "voDur": 14.028
+  },
+  {
+   "id": "s05",
+   "start": 1481,
+   "frames": 377,
+   "voStart": 1492,
+   "voDur": 10.814
+  },
+  {
+   "id": "s06",
+   "start": 1846,
+   "frames": 339,
+   "voStart": 1857,
+   "voDur": 10.334
+  },
+  {
+   "id": "s07",
+   "start": 2173,
+   "frames": 454,
+   "voStart": 2184,
+   "voDur": 12.992
+  },
+  {
+   "id": "s08",
+   "start": 2615,
+   "frames": 471,
+   "voStart": 2626,
+   "voDur": 14.144
+  },
+  {
+   "id": "s09",
+   "start": 3074,
+   "frames": 568,
+   "voStart": 3085,
+   "voDur": 16.572
+  },
+  {
+   "id": "s11",
+   "start": 3630,
+   "frames": 630,
+   "voStart": 3641,
+   "voDur": 15.536
+  }
+ ]
+}

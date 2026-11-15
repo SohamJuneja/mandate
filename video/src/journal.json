@@ -1,0 +1,46 @@
+[
+ {
+  "k": "sent",
+  "t": "00:58:27  sent     SELL 0.00039 BTC  open short ×3  0x2087dba0…"
+ },
+ {
+  "k": "sent",
+  "t": "00:59:35  sent     BUY  0.00039 BTC  close (target 1)  0x3662ee53…"
+ },
+ {
+  "k": "ref",
+  "t": "00:59:38  REFUSED  BUY  ETH  NotionalCapExceeded(27.86, 25.00)"
+ },
+ {
+  "k": "sent",
+  "t": "00:59:46  sent     BUY  0.012 ETH  open long ×3  0x01f2d20f…"
+ },
+ {
+  "k": "ref",
+  "t": "01:00:51  REFUSED  SELL BTC  NotionalCapExceeded(32.96, 25.00)"
+ },
+ {
+  "k": "sent",
+  "t": "01:01:00  sent     SELL 0.00039 BTC  open short ×3  0x79fd389a…"
+ },
+ {
+  "k": "sent",
+  "t": "01:01:07  sent     SELL 0.012 ETH  close (target -1)  0x635d2218…"
+ },
+ {
+  "k": "ref",
+  "t": "01:02:12  REFUSED  SELL ETH  NotionalCapExceeded(27.76, 25.00)"
+ },
+ {
+  "k": "sent",
+  "t": "01:02:21  sent     SELL 0.012 ETH  open short ×3  0x006951e9…"
+ },
+ {
+  "k": "sent",
+  "t": "01:05:34  sent     BUY  0.00039 BTC  close (target 1)  0x0b0cd3dd…"
+ },
+ {
+  "k": "sent",
+  "t": "01:05:41  sent     BUY  0.012 ETH  close (target 1)  0xee605f51…"
+ }
+]
