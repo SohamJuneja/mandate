@@ -1,6 +1,6 @@
-# Draft posts
+# X posts
 
-## 1 — launch
+## 1 (with the video)
 
 Your AI trading agent wants your money. Mandate lets it trade, but only inside rules the contract enforces.
 
@@ -9,32 +9,25 @@ Vaults on @DreamDEXSomnia perps:
 • max leverage
 • max size per market
 • drawdown → reduce-only
-• the leader can't withdraw. Ever.
+• the leader can't withdraw
 
-Live on Somnia testnet 👇
-[link to vault page] [screenshot: vault detail]
+🎥 <VIDEO_URL>
+github.com/SohamJuneja/mandate
 
-## 2 — the refusal is the feature
+## 2
 
-An agent tried to buy 0.0005 BTC (~$32) in a vault capped at $25 per market.
+The refusal is the feature.
 
-The vault said no, on chain:
-NotionalCapExceeded(31.79, 25)
-[explorer link to 0xea703717…]
+Our vault's leader sent a ~$32 BTC order into a vault capped at $25 per market. The contract said no, on chain: NotionalCapExceeded.
 
-Every Mandate order is checked at mark against worst-case exposure before it reaches the @DreamDEXSomnia book. Refused orders show up on the vault page next to the executed ones.
+Every order is checked at mark before it reaches the @DreamDEXSomnia book.
+https://explorer.testnet.somnia.network/tokyo/tx/0xea703717dc517a189e7651e333519530be6b309d511d823e1991b07d70998832
 
-## 3 — Somnia Reactivity
+## 3
 
-A tripwire vault with a 20 bps drawdown breaker. The leader's fill pushed it past the limit.
+Somnia Reactivity as a circuit breaker ⚡
 
-Same block, no keeper, no bot:
-⚡ Somnia Reactivity called our guard
-→ checkpoint() saw the breach
-→ vault latched reduce-only
-→ position flattened
+Test vault, 0.2% drawdown limit. Price moved, the next fill crossed the limit, and the chain called our guard in the same block → reduce-only → position closed. No keeper.
 
-Then the leader tried to buy again: ReduceOnly(). 🔒
-
-Built on @DreamDEXSomnia perps + on-chain Reactivity.
-[link to 0xa40b162a…]
+Next buy: ReduceOnly() 🔒 @DreamDEXSomnia
+https://explorer.testnet.somnia.network/tokyo/tx/0xa40b162a22f33df9e3278ca053016c341e367ed0d47f07f01169ba1473c13964
