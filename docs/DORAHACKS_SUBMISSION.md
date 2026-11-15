@@ -117,7 +117,7 @@ against the real Hideki MarginBank.
 
 - **GitHub:** <https://github.com/SohamJuneja/mandate>
 - **Live app:** <https://sohamjuneja.github.io/mandate/>
-- **Demo video:** `<VIDEO_URL>`
-- **X posts:** `<X_POST_1>` · `<X_POST_2>` · `<X_POST_3>`
+- **Demo video:** https://youtu.be/Af6lA-BRzqE
+- **X posts:** https://x.com/MandateSomnia/status/2121951420790472992 · https://x.com/MandateSomnia/status/2121946844268027922 · https://x.com/MandateSomnia/status/2121947232614367542
 - **Evidence:** <https://github.com/SohamJuneja/mandate/blob/main/evidence/EVIDENCE.md>
 - **Report:** <https://github.com/SohamJuneja/mandate/blob/main/REPORT.md>

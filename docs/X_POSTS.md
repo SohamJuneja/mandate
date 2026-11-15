@@ -11,7 +11,7 @@ Vaults on @DreamDEXSomnia perps:
 • drawdown → reduce-only
 • the leader can't withdraw
 
-🎥 <VIDEO_URL>
+🎥 https://youtu.be/Af6lA-BRzqE
 github.com/SohamJuneja/mandate
 
 ## 2

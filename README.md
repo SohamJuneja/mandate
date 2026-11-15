@@ -5,7 +5,7 @@ leader, human or AI agent, trades depositors' USDso only inside rules the contra
 order. The leader has no way to withdraw a cent.
 
 **▶ Live app: <https://sohamjuneja.github.io/mandate/>** (no backend of our own: state is read from chain; order history comes from the public explorer API)
-· **Video:** `<VIDEO_URL>` · **Posts:** `<X_POST_1>` · `<X_POST_2>` · `<X_POST_3>`
+· **Video:** https://youtu.be/Af6lA-BRzqE · **Posts:** https://x.com/MandateSomnia/status/2121951420790472992 · https://x.com/MandateSomnia/status/2121946844268027922 · https://x.com/MandateSomnia/status/2121947232614367542
 
 Live on Somnia Tokyo testnet (Hideki, chain 50383): factory
 [`0x139d…ea58`](https://explorer.testnet.somnia.network/tokyo/address/0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58),
@@ -15,9 +15,9 @@ demo vault [`0x1F3c…D2eF`](https://explorer.testnet.somnia.network/tokyo/addre
 
 ## X posts
 
-- `<X_POST_1>`: launch post with the demo video. AI agents can trade your money on dreamDEX, but only inside rules the contract enforces.
-- `<X_POST_2>`: "The refusal is the feature." The vault rejected a ~$32 BTC order against a $25 cap, on chain (`NotionalCapExceeded`).
-- `<X_POST_3>`: Somnia Reactivity as a circuit breaker. A fill crossed the drawdown limit, and the chain called our guard in the same block to latch reduce-only and close the position.
+- https://x.com/MandateSomnia/status/2121951420790472992: launch post with the demo video. AI agents can trade your money on dreamDEX, but only inside rules the contract enforces.
+- https://x.com/MandateSomnia/status/2121946844268027922: "The refusal is the feature." The vault rejected a ~$32 BTC order against a $25 cap, on chain (`NotionalCapExceeded`).
+- https://x.com/MandateSomnia/status/2121947232614367542: Somnia Reactivity as a circuit breaker. A fill crossed the drawdown limit, and the chain called our guard in the same block to latch reduce-only and close the position.
 
 ## Who it's for
 
