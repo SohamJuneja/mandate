@@ -30,7 +30,11 @@ Machine-readable: [deployments/hideki.json](deployments/hideki.json).
 
 ## Final state
 
-FINALSTATE
+- **deployer** `0x6DFa3A03C1a46fC424a57a4c2A11c68c9AfAF80e`: 40.7783 STT 43 USDso
+- **leader** `0xAbfAF8D4455b0d87776f955D5d7942aB92B60422`: 2.7865 STT 0 USDso
+- **depositor2** `0xD791cd3163e56362778E04A123c3d81000f7A610`: 4.9340 STT 12.4993 USDso
+- main 0x1F3c6D3197b3d0BfE7E8D87AD56Ac2B32E53D2eF: NAV 27.5725 · pps 1.002380 · supply 27.5070 · bank free 27.5725 locked 0 · wallet 0
+- tripwire 0xfAf0f9A5E71867A7ccaAff005082B9A71333A396: NAV 4.9792 · pps 0.995849 · supply 5 · bank free 4.9792 locked 0 · wallet 0 · REDUCE-ONLY
 
 The main vault's share price is up 0.24% since the first deposit, after the IOC round trip and the
 agent's 8 orders. A performance fee crystallized during the run (high-water mark 1.0011).
@@ -66,7 +70,38 @@ Evidence with what each proves, and NAV and share price before and after:
 
 | Step | Status | Tx |
 |---|---|---|
-TXTABLE
+| deployer → leader 10 USDso | success | [0xb5fcf87cbc…](https://explorer.testnet.somnia.network/tokyo/tx/0xb5fcf87cbc0308521480ace1df0f30cbb48218c38d0193be2d002a2989fd4b38) |
+| deployer → leader STT for gas | success | [0xc16b43d276…](https://explorer.testnet.somnia.network/tokyo/tx/0xc16b43d27648f9629a633c14e7fee165738c841173268a5dfc86bd767f2778d2) |
+| deploy MandateFactory(marginBank) | success | [0xcc8d75a61c…](https://explorer.testnet.somnia.network/tokyo/tx/0xcc8d75a61c292221d99634b96373b9e2758f866eb69e1ae52bd7dd9f5879c54a) |
+| factory.createVault("Mandate BTC/ETH Momentum") | success | [0x4015b7ba88…](https://explorer.testnet.somnia.network/tokyo/tx/0x4015b7ba886466da3baf31f8b483efbbd3010d4019882dee1e54b41ba7deab1f) |
+| leader approves the vault for exactly 10 USDso | success | [0xbf6d6d50d4…](https://explorer.testnet.somnia.network/tokyo/tx/0xbf6d6d50d47afd4c82e493ba555244bc9e0df2a6c175af0e468152d0ebb2e311) |
+| leader vault.deposit(10) | success | [0x015b44f0e0…](https://explorer.testnet.somnia.network/tokyo/tx/0x015b44f0e0c819369fd1f871ef03a1fcb0607a31e38d9389a512624ed9d37f85) |
+| depositor2 approves the vault for exactly 15 USDso | success | [0x008bb4bbd7…](https://explorer.testnet.somnia.network/tokyo/tx/0x008bb4bbd7e786baac25c3915f7016bc33bc81366b56c2eabf01f4f302a8e73c) |
+| depositor2 vault.deposit(15) | success | [0xd2f90f9597…](https://explorer.testnet.somnia.network/tokyo/tx/0xd2f90f9597cb20c43b835e3a5815285535b78b949cba659b47f14a78b4a04965) |
+| deployer approves the vault for exactly 10 USDso | success | [0xc5ecfb5be9…](https://explorer.testnet.somnia.network/tokyo/tx/0xc5ecfb5be98ade45e62158919e45f1b8b2385fe32cbf9570b4375b02f82b334b) |
+| deployer vault.deposit(10) | success | [0x7cc0e67187…](https://explorer.testnet.somnia.network/tokyo/tx/0x7cc0e6718720c7f4fb244df00c4fd44af3853c8f3299ad8f67fc515a5cb686fd) |
+| leader → vault.trade(BTC, BUY, 13000, IOC @ 64874.9) | success | [0x3a972fd5e3…](https://explorer.testnet.somnia.network/tokyo/tx/0x3a972fd5e31e0b7fed6c920a028d46d65d1d79bafb0aafb2843bb48812c5a76a) |
+| leader → vault.trade(BTC, SELL, 13000, IOC) — close | success | [0x5fa5df10c1…](https://explorer.testnet.somnia.network/tokyo/tx/0x5fa5df10c12045edf931170d6a68cedc83a63fde311a5c893d13bf43941c29a9) |
+| leader → vault.trade(SOL pool) — must revert | reverted | [0x7fe4b28f9e…](https://explorer.testnet.somnia.network/tokyo/tx/0x7fe4b28f9ef099401686660232775824bf7d7571b26e33a6614e917908c09990) |
+| leader → vault.trade(BTC, 0.0005 BTC) — over the notional cap | reverted | [0xea703717dc…](https://explorer.testnet.somnia.network/tokyo/tx/0xea703717dc517a189e7651e333519530be6b309d511d823e1991b07d70998832) |
+| anyone → vault.checkpoint() | success | [0xa278040698…](https://explorer.testnet.somnia.network/tokyo/tx/0xa2780406981c67f6f861a57fa8b876f9cd2ad8b4b1b0a8ee1633dca01ffcb873) |
+| depositor2 → vault.redeem(7.5 shares) | success | [0x078ee210d9…](https://explorer.testnet.somnia.network/tokyo/tx/0x078ee210d905378e53f7a935093b25c0d99fa40082d72084d9e505c00c26a7a2) |
+| leader → vault.trade(BTC, SELL, 39000, type 2) | success | [0x2087dba052…](https://explorer.testnet.somnia.network/tokyo/tx/0x2087dba052bba2def2dc1efc6de37a1c53e869211442e23f1c1fa9d2970efcbe) |
+| leader → vault.trade(BTC, BUY, 39000, type 2) | success | [0x3662ee5375…](https://explorer.testnet.somnia.network/tokyo/tx/0x3662ee53750c6b124bfd4b97abe9a3aba4a2ed7b4f05ca696fb108be08f3f3ff) |
+| leader → vault.trade(ETH, BUY, 12000000000000000, type 2) | success | [0x01f2d20fc7…](https://explorer.testnet.somnia.network/tokyo/tx/0x01f2d20fc741fdef3c632474193d49effb36be300a7e80eb12c3e8805b3da7a7) |
+| leader → vault.trade(BTC, SELL, 39000, type 2) | success | [0x79fd389a05…](https://explorer.testnet.somnia.network/tokyo/tx/0x79fd389a059ba916b0a261f31880970759733d035479dbdce32d03b4a7c617c9) |
+| leader → vault.trade(ETH, SELL, 12000000000000000, type 2) | success | [0x635d2218b1…](https://explorer.testnet.somnia.network/tokyo/tx/0x635d2218b1a80aea0cbaad168493fbf95693c1b85ae03c804821732e1f70e09c) |
+| leader → vault.trade(ETH, SELL, 12000000000000000, type 2) | success | [0x006951e983…](https://explorer.testnet.somnia.network/tokyo/tx/0x006951e9836b25521dc837bed7992ed7079e917d653f056fdf56b3ed99334332) |
+| leader → vault.trade(BTC, BUY, 39000, type 2) | success | [0x0b0cd3dd53…](https://explorer.testnet.somnia.network/tokyo/tx/0x0b0cd3dd53e7766376037a525736e7d8b88b01f420da48d09fb9949c0c621934) |
+| leader → vault.trade(ETH, BUY, 12000000000000000, type 2) | success | [0xee605f5195…](https://explorer.testnet.somnia.network/tokyo/tx/0xee605f5195bfbf450502787872a7580516c78d429d1a72e17b0b264c00bf7746) |
+| factory.createVault(tripwire) | success | [0x14066af3dc…](https://explorer.testnet.somnia.network/tokyo/tx/0x14066af3dc0812be4bdbdf5f2cd63aaaefca833a94c2f28e94b7b18d0f485047) |
+| leader approves exactly 5 USDso | success | [0x775db52778…](https://explorer.testnet.somnia.network/tokyo/tx/0x775db52778c73ea40a667b0b29701977ee5a4f555c4941c8d12bc8a9c164fab9) |
+| leader deposits 5 USDso | success | [0x9fc1710645…](https://explorer.testnet.somnia.network/tokyo/tx/0x9fc1710645953d2743951c305ff0f603fa043aa430e98c5a24ee1c712a3abb87) |
+| deploy MandateGuard(factory) | success | [0x4dfd42b741…](https://explorer.testnet.somnia.network/tokyo/tx/0x4dfd42b741655bff5165f242a059839d41fa61600316484904dad5ad984119c1) |
+| deployer → precompile 0x0100 subscribe(PositionUpdated[account=vault] → guard.onEvent) | success | [0x84da52e423…](https://explorer.testnet.somnia.network/tokyo/tx/0x84da52e423eb3ab44740732a392abfa94102b2cbc23fee00cd417d25a11a466e) |
+| leader → vault.trade(BTC, BUY 23000, IOC) | success | [0xb83c3e971b…](https://explorer.testnet.somnia.network/tokyo/tx/0xb83c3e971b93f041bb031b6adb1c0df7c6b50fe58088b53c348ffa7b29adb46a) |
+| leader → vault.trade(BTC, SELL 13000, IOC) (reducing slice) | success | [0x6071b3554e…](https://explorer.testnet.somnia.network/tokyo/tx/0x6071b3554e84127ca5535708838a483742352ec8223cffccccb90551402db022) |
+| leader → vault.trade(BTC, BUY) after the breach | reverted | [0x3105fc64b1…](https://explorer.testnet.somnia.network/tokyo/tx/0x3105fc64b136633fe45b0030c05e5a94662c238a2c54f351eea2f3850b21110e) |
 
 **Reactive transactions** (issued by the chain via Reactivity, not by us):
 
