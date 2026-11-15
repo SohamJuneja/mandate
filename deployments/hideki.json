@@ -1,0 +1,84 @@
+{
+  "chainId": 50383,
+  "marginBank": "0x478769E1177C0773c43A593DCCc4Ad15F15F1394",
+  "vaults": {
+    "main": {
+      "address": "0x1F3c6D3197b3d0BfE7E8D87AD56Ac2B32E53D2eF",
+      "leader": "0xAbfAF8D4455b0d87776f955D5d7942aB92B60422",
+      "tx": "0x4015b7ba886466da3baf31f8b483efbbd3010d4019882dee1e54b41ba7deab1f",
+      "params": {
+        "name": "Mandate BTC/ETH Momentum",
+        "symbol": "mBTCETH",
+        "leader": "0xAbfAF8D4455b0d87776f955D5d7942aB92B60422",
+        "mandate": {
+          "allowedPools": [
+            "0x4181dd08E73BbCdd1Ba3E615A18f6abD941b94C0",
+            "0xD6Cb1DD58580B84D76068aC21594219ce03aeddf"
+          ],
+          "maxLeverageX1e2": "300",
+          "maxNotionalPerPool": "25000000000000000000",
+          "drawdownBps": 1500,
+          "perfFeeBps": 1000,
+          "leaderMinShareBps": 500,
+          "lockSeconds": 120,
+          "builder": "0x6DFa3A03C1a46fC424a57a4c2A11c68c9AfAF80e",
+          "builderFeeBpsTimes1k": "1000"
+        }
+      }
+    }
+  },
+  "steps": {
+    "fund-leader": {
+      "hash": "0xc16b43d27648f9629a633c14e7fee165738c841173268a5dfc86bd767f2778d2",
+      "at": "2026-11-15T00:47:11.221Z",
+      "note": "leader funded with 10 USDso + gas"
+    },
+    "deploy-factory": {
+      "hash": "0xcc8d75a61c292221d99634b96373b9e2758f866eb69e1ae52bd7dd9f5879c54a",
+      "at": "2026-11-15T00:47:43.992Z"
+    },
+    "create-vault": {
+      "hash": "0x4015b7ba886466da3baf31f8b483efbbd3010d4019882dee1e54b41ba7deab1f",
+      "at": "2026-11-15T00:47:45.941Z"
+    },
+    "deposit-leader": {
+      "hash": "0x015b44f0e0c819369fd1f871ef03a1fcb0607a31e38d9389a512624ed9d37f85",
+      "at": "2026-11-15T00:47:50.701Z"
+    },
+    "deposit-depositor2": {
+      "hash": "0xd2f90f9597cb20c43b835e3a5815285535b78b949cba659b47f14a78b4a04965",
+      "at": "2026-11-15T00:47:55.509Z"
+    },
+    "deposit-deployer": {
+      "hash": "0x7cc0e6718720c7f4fb244df00c4fd44af3853c8f3299ad8f67fc515a5cb686fd",
+      "at": "2026-11-15T00:48:00.230Z"
+    },
+    "trade-open-btc": {
+      "hash": "0x3a972fd5e31e0b7fed6c920a028d46d65d1d79bafb0aafb2843bb48812c5a76a",
+      "at": "2026-11-15T00:48:03.283Z"
+    },
+    "trade-close-btc": {
+      "hash": "0x5fa5df10c12045edf931170d6a68cedc83a63fde311a5c893d13bf43941c29a9",
+      "at": "2026-11-15T00:48:06.143Z"
+    },
+    "revert-market-not-allowed": {
+      "hash": "0x7fe4b28f9ef099401686660232775824bf7d7571b26e33a6614e917908c09990",
+      "at": "2026-11-15T00:48:09.293Z"
+    },
+    "revert-notional-cap": {
+      "hash": "0xea703717dc517a189e7651e333519530be6b309d511d823e1991b07d70998832",
+      "at": "2026-11-15T00:48:12.552Z"
+    },
+    "checkpoint": {
+      "hash": "0xa2780406981c67f6f861a57fa8b876f9cd2ad8b4b1b0a8ee1633dca01ffcb873",
+      "at": "2026-11-15T00:48:15.548Z"
+    },
+    "redeem-depositor2-half": {
+      "hash": "0x078ee210d905378e53f7a935093b25c0d99fa40082d72084d9e505c00c26a7a2",
+      "at": "2026-11-15T00:50:01.233Z"
+    }
+  },
+  "collateral": "0xed7993A74dAe1e6656B704A424DcD8711aAf4F72",
+  "factory": "0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58",
+  "factoryTx": "0xcc8d75a61c292221d99634b96373b9e2758f866eb69e1ae52bd7dd9f5879c54a"
+}

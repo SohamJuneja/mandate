@@ -1,0 +1,101 @@
+[
+  {
+    "phase": "2",
+    "step": "Deploy MandateFactory",
+    "proves": "Factory bound to the live MarginBank; collateral read from getSystemConfig",
+    "hash": "0xcc8d75a61c292221d99634b96373b9e2758f866eb69e1ae52bd7dd9f5879c54a",
+    "status": "success",
+    "after": "factory 0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58"
+  },
+  {
+    "phase": "2",
+    "step": "Create vault \"Mandate BTC/ETH Momentum\"",
+    "proves": "Mandate fixed at deploy: BTC+ETH only, 3x, 25 USDso/market, 15% drawdown → reduce-only, 10% perf fee, leader ≥5%, 120 s lock, 1 bp builder fee",
+    "hash": "0x4015b7ba886466da3baf31f8b483efbbd3010d4019882dee1e54b41ba7deab1f",
+    "status": "success",
+    "after": "vault 0x1F3c6D3197b3d0BfE7E8D87AD56Ac2B32E53D2eF"
+  },
+  {
+    "phase": "2",
+    "step": "leader deposits 10 USDso",
+    "proves": "First deposit must be the leader; shares 1:1 when empty; USDso goes straight into the vault's own MarginBank account",
+    "hash": "0x015b44f0e0c819369fd1f871ef03a1fcb0607a31e38d9389a512624ed9d37f85",
+    "status": "success",
+    "before": "NAV 0 · pps 1 · supply 0 · bank free 0 locked 0 · wallet 0",
+    "after": "NAV 10 · pps 1 · supply 10 · bank free 10 locked 0 · wallet 0"
+  },
+  {
+    "phase": "2",
+    "step": "depositor2 deposits 15 USDso",
+    "proves": "Shares priced at NAV; collateral lands in the bank, locked for 120 s",
+    "hash": "0xd2f90f9597cb20c43b835e3a5815285535b78b949cba659b47f14a78b4a04965",
+    "status": "success",
+    "before": "NAV 10 · pps 1 · supply 10 · bank free 10 locked 0 · wallet 0",
+    "after": "NAV 25 · pps 1 · supply 25 · bank free 25 locked 0 · wallet 0"
+  },
+  {
+    "phase": "2",
+    "step": "deployer deposits 10 USDso",
+    "proves": "Shares priced at NAV; collateral lands in the bank, locked for 120 s",
+    "hash": "0x7cc0e6718720c7f4fb244df00c4fd44af3853c8f3299ad8f67fc515a5cb686fd",
+    "status": "success",
+    "before": "NAV 25 · pps 1 · supply 25 · bank free 25 locked 0 · wallet 0",
+    "after": "NAV 35 · pps 1 · supply 35 · bank free 35 locked 0 · wallet 0"
+  },
+  {
+    "phase": "2",
+    "step": "Leader opens a long of 0.00013 BTC (IOC)",
+    "proves": "vault.trade() placed an IOC as owner and filled: position 13000 @ 63630.5; margin from the bank, builder fee attached",
+    "hash": "0x3a972fd5e31e0b7fed6c920a028d46d65d1d79bafb0aafb2843bb48812c5a76a",
+    "status": "success",
+    "before": "NAV 35 · pps 1 · supply 35 · bank free 35 locked 0 · wallet 0",
+    "after": "NAV 34.9936 · pps 0.999817 · supply 35 · bank free 34.9991 locked 0 · wallet 0 · pos BTC 13000"
+  },
+  {
+    "phase": "2",
+    "step": "Leader closes the BTC position (IOC)",
+    "proves": "A reducing order passes; the vault is flat again; NAV reflects realized PnL and fees",
+    "hash": "0x5fa5df10c12045edf931170d6a68cedc83a63fde311a5c893d13bf43941c29a9",
+    "status": "success",
+    "before": "NAV 34.9938 · pps 0.999823 · supply 35 · bank free 34.9991 locked 0 · wallet 0 · pos BTC 13000",
+    "after": "NAV 34.9971 · pps 0.999917 · supply 35 · bank free 34.9971 locked 0 · wallet 0"
+  },
+  {
+    "phase": "2",
+    "step": "Order on SOL (not in the mandate)",
+    "proves": "The contract refuses markets outside the allowlist, on chain",
+    "hash": "0x7fe4b28f9ef099401686660232775824bf7d7571b26e33a6614e917908c09990",
+    "status": "reverted (expected)",
+    "decoded": "MarketNotAllowed() 0x6f538c72",
+    "before": "NAV 34.9971 · pps 0.999917 · supply 35 · bank free 34.9971 locked 0 · wallet 0",
+    "after": "NAV 34.9971 · pps 0.999917 · supply 35 · bank free 34.9971 locked 0 · wallet 0"
+  },
+  {
+    "phase": "2",
+    "step": "Order of 0.0005 BTC (~32 USDso) vs a 25 USDso cap",
+    "proves": "The per-market notional cap is enforced on chain",
+    "hash": "0xea703717dc517a189e7651e333519530be6b309d511d823e1991b07d70998832",
+    "status": "reverted (expected)",
+    "decoded": "NotionalCapExceeded 0xd8c73c46000000000000000000000000000000000000000000000001b9410857d224e7520000000000000000000000000000000000000000000000015af1d78b58c40000",
+    "before": "NAV 34.9971 · pps 0.999917 · supply 35 · bank free 34.9971 locked 0 · wallet 0",
+    "after": "NAV 34.9971 · pps 0.999917 · supply 35 · bank free 34.9971 locked 0 · wallet 0"
+  },
+  {
+    "phase": "2",
+    "step": "checkpoint()",
+    "proves": "pps is at or below the high-water mark → no fee; inside the 15% band → no breach",
+    "hash": "0xa2780406981c67f6f861a57fa8b876f9cd2ad8b4b1b0a8ee1633dca01ffcb873",
+    "status": "success",
+    "before": "NAV 34.9971 · pps 0.999917 · supply 35 · bank free 34.9971 locked 0 · wallet 0 · hwm 1",
+    "after": "NAV 34.9971 · pps 0.999917 · supply 35 · bank free 34.9971 locked 0 · wallet 0 · hwm 1"
+  },
+  {
+    "phase": "2",
+    "step": "depositor2 redeems half (7.5 shares) after the lock",
+    "proves": "Paid 7.499380 USDso = shares × NAV / supply, withdrawn from free bank margin straight to the depositor",
+    "hash": "0x078ee210d905378e53f7a935093b25c0d99fa40082d72084d9e505c00c26a7a2",
+    "status": "success",
+    "before": "NAV 34.9971 · pps 0.999917 · supply 35 · bank free 34.9971 locked 0 · wallet 0",
+    "after": "NAV 27.4977 · pps 0.999917 · supply 27.5 · bank free 27.4977 locked 0 · wallet 0"
+  }
+]

@@ -1,0 +1,105 @@
+Hideki 50383 · collateral 0xed7993A74dAe1e6656B704A424DcD8711aAf4F72 (live from getSystemConfig)
+deployer 0x6DFa3A03C1a46fC424a57a4c2A11c68c9AfAF80e
+leader   0xAbfAF8D4455b0d87776f955D5d7942aB92B60422
+depositor2 0xD791cd3163e56362778E04A123c3d81000f7A610
+  deployer   44.5850 STT · 63 USDso
+  leader     0.2136 STT · 0 USDso
+  depositor2 5 STT · 25 USDso
+ledger: 0 USDso into vaults, 0 STT gas so far
+
+▶ fund-leader
+  tx  deployer → leader 10 USDso
+      https://explorer.testnet.somnia.network/tokyo/tx/0xb5fcf87cbc0308521480ace1df0f30cbb48218c38d0193be2d002a2989fd4b38
+      ✓ block 50491996, gasUsed 262837
+  tx  deployer → leader STT for gas
+      https://explorer.testnet.somnia.network/tokyo/tx/0xc16b43d27648f9629a633c14e7fee165738c841173268a5dfc86bd767f2778d2
+      ✓ block 50492014, gasUsed 21000
+
+▶ deploy-factory
+
+✖ deploy MandateFactory(marginBank) reverted: revert data 0x (empty: no reason, or simulated out-of-gas) (eth_call)
+Hideki 50383 · collateral 0xed7993A74dAe1e6656B704A424DcD8711aAf4F72 (live from getSystemConfig)
+deployer 0x6DFa3A03C1a46fC424a57a4c2A11c68c9AfAF80e
+leader   0xAbfAF8D4455b0d87776f955D5d7942aB92B60422
+depositor2 0xD791cd3163e56362778E04A123c3d81000f7A610
+  deployer   41.7969 STT · 53 USDso
+  leader     3 STT · 10 USDso
+  depositor2 5 STT · 25 USDso
+ledger: 0 USDso into vaults, 0.0017 STT gas so far
+· skip fund-leader (done https://explorer.testnet.somnia.network/tokyo/tx/0xc16b43d27648f9629a633c14e7fee165738c841173268a5dfc86bd767f2778d2)
+
+▶ deploy-factory
+  tx  deploy MandateFactory(marginBank)
+      https://explorer.testnet.somnia.network/tokyo/tx/0xcc8d75a61c292221d99634b96373b9e2758f866eb69e1ae52bd7dd9f5879c54a
+      ✓ block 50492342, gasUsed 63440046
+      factory 0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58
+
+▶ create-vault
+  tx  factory.createVault("Mandate BTC/ETH Momentum")
+      https://explorer.testnet.somnia.network/tokyo/tx/0x4015b7ba886466da3baf31f8b483efbbd3010d4019882dee1e54b41ba7deab1f
+      ✓ block 50492360, gasUsed 46260103
+      vault 0x1F3c6D3197b3d0BfE7E8D87AD56Ac2B32E53D2eF (gasUsed 46260103)
+
+▶ deposit-leader
+  tx  leader approves the vault for exactly 10 USDso
+      https://explorer.testnet.somnia.network/tokyo/tx/0xbf6d6d50d47afd4c82e493ba555244bc9e0df2a6c175af0e468152d0ebb2e311
+      ✓ block 50492384, gasUsed 260601
+  tx  leader vault.deposit(10)
+      https://explorer.testnet.somnia.network/tokyo/tx/0x015b44f0e0c819369fd1f871ef03a1fcb0607a31e38d9389a512624ed9d37f85
+      ✓ block 50492402, gasUsed 1899095
+      NAV 10 · pps 1 · supply 10 · bank free 10 locked 0 · wallet 0 · leader holds 10 shares
+
+▶ deposit-depositor2
+  tx  depositor2 approves the vault for exactly 15 USDso
+      https://explorer.testnet.somnia.network/tokyo/tx/0x008bb4bbd7e786baac25c3915f7016bc33bc81366b56c2eabf01f4f302a8e73c
+      ✓ block 50492432, gasUsed 260601
+  tx  depositor2 vault.deposit(15)
+      https://explorer.testnet.somnia.network/tokyo/tx/0xd2f90f9597cb20c43b835e3a5815285535b78b949cba659b47f14a78b4a04965
+      ✓ block 50492450, gasUsed 700656
+      NAV 25 · pps 1 · supply 25 · bank free 25 locked 0 · wallet 0 · depositor2 holds 15 shares
+
+▶ deposit-deployer
+  tx  deployer approves the vault for exactly 10 USDso
+      https://explorer.testnet.somnia.network/tokyo/tx/0xc5ecfb5be98ade45e62158919e45f1b8b2385fe32cbf9570b4375b02f82b334b
+      ✓ block 50492480, gasUsed 260601
+  tx  deployer vault.deposit(10)
+      https://explorer.testnet.somnia.network/tokyo/tx/0x7cc0e6718720c7f4fb244df00c4fd44af3853c8f3299ad8f67fc515a5cb686fd
+      ✓ block 50492497, gasUsed 700656
+      NAV 35 · pps 1 · supply 35 · bank free 35 locked 0 · wallet 0 · deployer holds 10 shares
+
+▶ trade-open-btc
+  tx  leader → vault.trade(BTC, BUY, 13000, IOC @ 64874.9)
+      https://explorer.testnet.somnia.network/tokyo/tx/0x3a972fd5e31e0b7fed6c920a028d46d65d1d79bafb0aafb2843bb48812c5a76a
+      ✓ block 50492529, gasUsed 4649246
+      NAV 34.9936 · pps 0.999817 · supply 35 · bank free 34.9991 locked 0 · wallet 0 · pos BTC 13000
+
+▶ trade-close-btc
+  tx  leader → vault.trade(BTC, SELL, 13000, IOC) — close
+      https://explorer.testnet.somnia.network/tokyo/tx/0x5fa5df10c12045edf931170d6a68cedc83a63fde311a5c893d13bf43941c29a9
+      ✓ block 50492558, gasUsed 2753838
+      NAV 34.9971 · pps 0.999917 · supply 35 · bank free 34.9971 locked 0 · wallet 0
+
+▶ revert-market-not-allowed
+  tx  leader → vault.trade(SOL pool) — must revert
+      https://explorer.testnet.somnia.network/tokyo/tx/0x7fe4b28f9ef099401686660232775824bf7d7571b26e33a6614e917908c09990
+      ✓ reverted on chain (block 50492587); replay decodes MarketNotAllowed() [0x6f538c72]
+
+▶ revert-notional-cap
+  tx  leader → vault.trade(BTC, 0.0005 BTC) — over the notional cap
+      https://explorer.testnet.somnia.network/tokyo/tx/0xea703717dc517a189e7651e333519530be6b309d511d823e1991b07d70998832
+      ✓ reverted on chain (block 50492620); replay decodes NotionalCapExceeded(31795704017493223250, 25000000000000000000) [0xd8c73c46000000000000000000000000000000000000000000000001b9410857d224e7520000000000000000000000000000000000000000000000015af1d78b58c40000]
+
+▶ checkpoint
+  tx  anyone → vault.checkpoint()
+      https://explorer.testnet.somnia.network/tokyo/tx/0xa2780406981c67f6f861a57fa8b876f9cd2ad8b4b1b0a8ee1633dca01ffcb873
+      ✓ block 50492650, gasUsed 36628
+      NAV 34.9971 · pps 0.999917 · supply 35 · bank free 34.9971 locked 0 · wallet 0 · hwm 1 · logs 0
+
+▶ redeem-depositor2-half
+      waiting 102s for depositor2's lock to expire
+  tx  depositor2 → vault.redeem(7.5 shares)
+      https://explorer.testnet.somnia.network/tokyo/tx/0x078ee210d905378e53f7a935093b25c0d99fa40082d72084d9e505c00c26a7a2
+      ✓ block 50493707, gasUsed 216121
+      depositor2 received 7.499380 USDso · NAV 27.4977 · pps 0.999917 · supply 27.5 · bank free 27.4977 locked 0 · wallet 0
+
+✓ phase 2 done · ledger 35 USDso into vaults, 0.7314 STT gas

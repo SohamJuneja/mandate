@@ -183,6 +183,18 @@ export async function send(
   const wallet = createWalletClient({ account: from, chain: hidekiTestnet, transport });
   const call = { to: tx.to, data: tx.data, value: tx.value };
 
+  // No explicit gas (deploys, deposits): estimate first. A failing estimate carries the revert
+  // data, and the estimate is the cap the simulation needs: a ~20 KB deploy on Somnia costs ~100M,
+  // so simulating it under the 3M floor would report an empty out-of-gas revert.
+  if (tx.gas === undefined && !opts.expectRevert) {
+    try {
+      const est = await pub.estimateGas({ account: from.address, ...call });
+      tx = { ...tx, gas: (est * 13n) / 10n };
+    } catch (e) {
+      throw new RevertError(step, revertData(e));
+    }
+  }
+
   if (opts.expectRevert) {
     // Prove it reverts in simulation first, with the expected error.
     let simName: string | undefined;

@@ -1,0 +1,102 @@
+{
+  "usdsoIntoVaults": "35000000000000000000",
+  "sttGas": "731460324000000000",
+  "txs": [
+    {
+      "step": "deployer → leader 10 USDso",
+      "hash": "0xb5fcf87cbc0308521480ace1df0f30cbb48218c38d0193be2d002a2989fd4b38",
+      "gasWei": "1577022000000000",
+      "status": "success"
+    },
+    {
+      "step": "deployer → leader STT for gas",
+      "hash": "0xc16b43d27648f9629a633c14e7fee165738c841173268a5dfc86bd767f2778d2",
+      "gasWei": "126000000000000",
+      "status": "success"
+    },
+    {
+      "step": "deploy MandateFactory(marginBank)",
+      "hash": "0xcc8d75a61c292221d99634b96373b9e2758f866eb69e1ae52bd7dd9f5879c54a",
+      "gasWei": "380640276000000000",
+      "status": "success"
+    },
+    {
+      "step": "factory.createVault(\"Mandate BTC/ETH Momentum\")",
+      "hash": "0x4015b7ba886466da3baf31f8b483efbbd3010d4019882dee1e54b41ba7deab1f",
+      "gasWei": "277560618000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader approves the vault for exactly 10 USDso",
+      "hash": "0xbf6d6d50d47afd4c82e493ba555244bc9e0df2a6c175af0e468152d0ebb2e311",
+      "gasWei": "1563606000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader vault.deposit(10)",
+      "hash": "0x015b44f0e0c819369fd1f871ef03a1fcb0607a31e38d9389a512624ed9d37f85",
+      "gasWei": "11394570000000000",
+      "status": "success"
+    },
+    {
+      "step": "depositor2 approves the vault for exactly 15 USDso",
+      "hash": "0x008bb4bbd7e786baac25c3915f7016bc33bc81366b56c2eabf01f4f302a8e73c",
+      "gasWei": "1563606000000000",
+      "status": "success"
+    },
+    {
+      "step": "depositor2 vault.deposit(15)",
+      "hash": "0xd2f90f9597cb20c43b835e3a5815285535b78b949cba659b47f14a78b4a04965",
+      "gasWei": "4203936000000000",
+      "status": "success"
+    },
+    {
+      "step": "deployer approves the vault for exactly 10 USDso",
+      "hash": "0xc5ecfb5be98ade45e62158919e45f1b8b2385fe32cbf9570b4375b02f82b334b",
+      "gasWei": "1563606000000000",
+      "status": "success"
+    },
+    {
+      "step": "deployer vault.deposit(10)",
+      "hash": "0x7cc0e6718720c7f4fb244df00c4fd44af3853c8f3299ad8f67fc515a5cb686fd",
+      "gasWei": "4203936000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(BTC, BUY, 13000, IOC @ 64874.9)",
+      "hash": "0x3a972fd5e31e0b7fed6c920a028d46d65d1d79bafb0aafb2843bb48812c5a76a",
+      "gasWei": "27895476000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(BTC, SELL, 13000, IOC) — close",
+      "hash": "0x5fa5df10c12045edf931170d6a68cedc83a63fde311a5c893d13bf43941c29a9",
+      "gasWei": "16523028000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(SOL pool) — must revert",
+      "hash": "0x7fe4b28f9ef099401686660232775824bf7d7571b26e33a6614e917908c09990",
+      "gasWei": "301236000000000",
+      "status": "reverted"
+    },
+    {
+      "step": "leader → vault.trade(BTC, 0.0005 BTC) — over the notional cap",
+      "hash": "0xea703717dc517a189e7651e333519530be6b309d511d823e1991b07d70998832",
+      "gasWei": "826914000000000",
+      "status": "reverted"
+    },
+    {
+      "step": "anyone → vault.checkpoint()",
+      "hash": "0xa2780406981c67f6f861a57fa8b876f9cd2ad8b4b1b0a8ee1633dca01ffcb873",
+      "gasWei": "219768000000000",
+      "status": "success"
+    },
+    {
+      "step": "depositor2 → vault.redeem(7.5 shares)",
+      "hash": "0x078ee210d905378e53f7a935093b25c0d99fa40082d72084d9e505c00c26a7a2",
+      "gasWei": "1296726000000000",
+      "status": "success"
+    }
+  ]
+}

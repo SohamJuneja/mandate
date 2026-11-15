@@ -73,3 +73,20 @@ Choices made while working unattended, newest last. Each says what was decided a
 - **D1.16 Real bug fixed during testing:** `deposit()` read `totalSupply()` before the fee
   checkpoint minted shares, so a depositor entering just after a gain was priced on a stale supply
   and short-changed. Caught by `test_fee_crystallizesBeforeDepositAndRedeem`.
+
+## Phase 2
+
+- **D2.1 Demo mandate numbers.** maxNotionalPerPool = 25 USDso: small, but above one minimum order
+  on each market (BTC 0.00013 ≈ 8.3, ETH 0.004 ≈ 7.1), so the agent can trade and a 0.0005 BTC
+  order (~32) demonstrably breaches it. Leverage 3x, drawdown 15%, lock 120 s, as specified.
+- **D2.2 Builder = the deployer address, 1 bp** (`builderFeeBpsTimes1k = 1000`). It stands in for
+  "the app" so the builder-fee business model runs end to end. The pool cap is 10 bps.
+- **D2.3 Leader funding.** The leader key had no USDso, so the deployer transferred it 10 USDso and
+  3 STT for gas. That is a wallet transfer, not a vault deposit, so it does not count against the
+  45 USDso vault cap. The 35 USDso of deposits do.
+- **D2.4 The close is an explicit reducing `trade()`** (IOC sell of the full size), not
+  `closePosition()`, to show that a reducing leader order passes the checks. `closePosition` is
+  exercised in Phase 5 by the keeper.
+- **D2.5 Simulation gas for unbounded txs.** The first factory deploy attempt stopped in
+  simulation with an empty revert: a 3M cap is far below the ~63M a 19 KB deploy costs on Somnia.
+  `send()` now estimates first and simulates with the estimate. Nothing was sent in the failed attempt.
