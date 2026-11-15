@@ -33,8 +33,11 @@ flattens the position, with no keeper. An MCP server lets any AI agent become a 
 
 ## The problem
 
-The dreamDEX bounty produced 60+ trading bots, and none of them can safely take outside
-capital. Today a depositor either hands an agent the private key or trusts an off-chain promise
+This bounty produced dozens of trading bots, and almost all of them trade only their builder's
+own money. The one pooled vault on dreamDEX was built from scratch for a single strategy. Mandate
+is a factory: any strategy, human or AI, can become a vault, with the rules enforced on chain.
+
+Today a depositor either hands an agent the private key or trusts an off-chain promise
 about risk limits. Neither works for real money. Copy-trading vaults on other venues trust the
 leader on markets, size and leverage. An AI agent can hallucinate, loop or be prompt-injected,
 so "trust the leader" is the wrong model.
@@ -87,8 +90,6 @@ against the real Hideki MarginBank.
   as the fill, with no off-chain keeper or bot.
 - **dreamDEX perps.** The vault holds its own MarginBank cross-margin account and places orders
   as owner on the PerpPool order books. It uses dreamDEX builder codes for app revenue.
-- **Fast blocks and archive `eth_call`.** The share-price chart is read straight from chain
-  state, with no indexer or backend.
 
 ## Business model
 

@@ -21,10 +21,10 @@
 
 | Time | Window / URL | Action | Say (exact lines) |
 |---|---|---|---|
-| 0:00–0:08 | Tab 1, vault list | Static, cursor still | "This bounty produced 60+ trading bots. None of them can safely take outside money. Mandate fixes that." |
-| 0:08–0:20 | Tab 1 | Hover the mandate badges on the BTC/ETH row (BTC, ETH, 3x, $25/mkt, DD 15%) | "Mandate is a vault on dreamDEX perps. A leader, a human or an AI agent, trades the pool, but only inside rules written into the contract." |
+| 0:00–0:10 | Tab 1, vault list | Static, cursor still | "This bounty produced dozens of trading bots. Almost all of them can only trade their builder's own money. Mandate lets any of them take outside money, under rules the contract enforces." |
+| 0:10–0:20 | Tab 1 | Hover the mandate badges on the BTC/ETH row (BTC, ETH, 3x, $25/mkt, DD 15%) | "Mandate is a vault on dreamDEX perps. A leader, a human or an AI agent, trades the pool, but only inside rules written into the contract." |
 | 0:20–0:38 | Tab 2, main vault | Scroll slowly from the NAV cards to "The mandate" sentence and the rules list | "This vault reads in one sentence: BTC and ETH only, up to 3x, 25 dollars per market, and reduce-only if it falls 15 percent from its high. The leader can't withdraw your money. There is no function for it." |
-| 0:38–0:50 | Tab 2 | Point at NAV, share price and high-water mark, then the deposit panel | "Depositors approve the exact amount. It goes straight into the vault's own dreamDEX margin account, and they get shares at live NAV. Everything on this page is read from chain. There's no backend." |
+| 0:38–0:50 | Tab 2 | Point at NAV, share price and high-water mark, then the deposit panel | "Depositors approve the exact amount. It goes straight into the vault's own dreamDEX margin account, and they get shares at live NAV. There's no backend of our own: state is read from chain, and order history comes from the public explorer API." |
 | 0:50–1:02 | VS Code, `MandateVault.sol` `trade()` | Highlight the lines with `MarketNotAllowed`, `NotionalCapExceeded`, `LeverageCapExceeded` and `ReduceOnly` | "Every order goes through this one function. It checks the market, the size and the leverage at mark, counting resting orders as filled, before it ever touches the order book." |
 | 1:02–1:12 | Tab 4, explorer, SOL tx | Point at the status **Failed** and the revert `0x6f538c72` | "Here's the leader trying to trade SOL. It's not in the mandate, so the transaction reverted on chain with MarketNotAllowed." |
 | 1:12–1:20 | Tab 5, explorer, size tx | Point at **Failed** | "And here's an order for 32 dollars against a 25-dollar cap. Refused on chain." |

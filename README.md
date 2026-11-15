@@ -4,7 +4,7 @@
 leader, human or AI agent, trades depositors' USDso only inside rules the contract checks on every
 order. The leader has no way to withdraw a cent.
 
-**▶ Live app: <https://sohamjuneja.github.io/mandate/>** (reads straight from chain, no backend)
+**▶ Live app: <https://sohamjuneja.github.io/mandate/>** (no backend of our own: state is read from chain; order history comes from the public explorer API)
 · **Video:** `<VIDEO_URL>` · **Posts:** `<X_POST_1>` · `<X_POST_2>` · `<X_POST_3>`
 
 Live on Somnia Hideki testnet (chain 50383): factory

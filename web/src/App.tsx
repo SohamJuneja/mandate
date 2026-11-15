@@ -69,7 +69,7 @@ export function App() {
       {walletErr && <div className="note note-bad banner">{walletErr}</div>}
       <main>{page}</main>
       <footer className="footer muted small">
-        Factory <Addr a={FACTORY} /> · dreamDEX perps on Somnia · reads straight from chain, no backend
+        Factory <Addr a={FACTORY} /> · dreamDEX perps on Somnia · no backend of our own: state is read from chain; order history comes from the public explorer API
       </footer>
     </>
   );
