@@ -169,5 +169,84 @@
     "status": "success",
     "before": "NAV 27.564535 · pps 1.002148 · pos BTC 0, ETH -0.012",
     "after": "NAV 27.572516 · pps 1.002380 · pos BTC 0, ETH 0"
+  },
+  {
+    "phase": "5",
+    "step": "Create the tripwire vault",
+    "proves": "BTC only, 3x, drawdown breaker at 20 bps: a tiny loss must trip it",
+    "hash": "0x14066af3dc0812be4bdbdf5f2cd63aaaefca833a94c2f28e94b7b18d0f485047",
+    "status": "success",
+    "after": "vault 0xfAf0f9A5E71867A7ccaAff005082B9A71333A396"
+  },
+  {
+    "phase": "5",
+    "step": "Leader seeds the tripwire vault with 5 USDso",
+    "proves": "First deposit by the leader; high-water mark set at 1.0",
+    "hash": "0x9fc1710645953d2743951c305ff0f603fa043aa430e98c5a24ee1c712a3abb87",
+    "status": "success",
+    "after": "NAV 5 · pps 1 · supply 5 · bank free 5 locked 0 · wallet 0"
+  },
+  {
+    "phase": "5",
+    "step": "Deploy MandateGuard",
+    "proves": "A reactivity handler with no funds and no privileges: checkpoint() is public, closePosition() opens to anyone on breach",
+    "hash": "0x4dfd42b741655bff5165f242a059839d41fa61600316484904dad5ad984119c1",
+    "status": "success",
+    "after": "guard 0x7aaf47230520a7d1ebe07f862aca3b66e204d732"
+  },
+  {
+    "phase": "5",
+    "step": "Subscribe on chain (id 44122688)",
+    "proves": "Reactivity precompile 0x0100: MarginBank.PositionUpdated with topic1 = vault → MandateGuard.onEvent, 12M gas, owner = deployer EOA",
+    "hash": "0x84da52e423eb3ab44740732a392abfa94102b2cbc23fee00cd417d25a11a466e",
+    "status": "success"
+  },
+  {
+    "phase": "5",
+    "step": "Leader opens a 23000-unit BTC long (~2.9x)",
+    "proves": "Fill emits MarginBank.PositionUpdated(account = vault): the subscription's trigger",
+    "hash": "0xb83c3e971b93f041bb031b6adb1c0df7c6b50fe58088b53c348ffa7b29adb46a",
+    "status": "success",
+    "before": "NAV 5 · pps 1 · supply 5 · bank free 5 locked 0 · wallet 0 · hwm 1"
+  },
+  {
+    "phase": "5",
+    "step": "Reactive call: MandateGuard.onEvent (same block as the fill)",
+    "proves": "Validators invoked the guard; pps 0.999684 still inside the band → no action",
+    "hash": "0x2b6f58a201e81a63cf3a644941a864fcc7063591343ebdeeab7a70144e6e2070",
+    "status": "success",
+    "after": "NAV 4.9972 · pps 0.999449 · supply 5 · bank free 4.9985 locked 0 · wallet 0 · pos BTC 23000 · hwm 1"
+  },
+  {
+    "phase": "5",
+    "step": "Mark moved against the vault; leader sells a 13000-unit slice",
+    "proves": "Reducing orders stay allowed; the fill emits PositionUpdated → reactive guard",
+    "hash": "0x6071b3554e84127ca5535708838a483742352ec8223cffccccb90551402db022",
+    "status": "success",
+    "before": "NAV 4.9828 · pps 0.996561 · supply 5 · bank free 4.9985 locked 0 · wallet 0 · pos BTC 23000 · hwm 1"
+  },
+  {
+    "phase": "5",
+    "step": "Reactive call: MandateGuard.onEvent (same block as the fill)",
+    "proves": "Vault is breached (pps 0.995849 vs high 1): reduce-only latched and the guard sent closePosition (1 market closed), with no keeper and no leader",
+    "hash": "0xa40b162a22f33df9e3278ca053016c341e367ed0d47f07f01169ba1473c13964",
+    "status": "success",
+    "after": "NAV 4.9792 · pps 0.995849 · supply 5 · bank free 4.9792 locked 0 · wallet 0 · REDUCE-ONLY · hwm 1"
+  },
+  {
+    "phase": "5",
+    "step": "Reactive call: MandateGuard.onEvent (same block as the fill)",
+    "proves": "Vault is breached (pps 0.995849 vs high 1): reduce-only latched and the guard sent closePosition (0 market closed), with no keeper and no leader",
+    "hash": "0x4cbb77224dbd7f1b2c5b51cfb70d742175e827c2ac38d450d32fa426a74c405e",
+    "status": "success",
+    "after": "NAV 4.9792 · pps 0.995849 · supply 5 · bank free 4.9792 locked 0 · wallet 0 · REDUCE-ONLY · hwm 1"
+  },
+  {
+    "phase": "5",
+    "step": "Leader tries to buy again after the breach",
+    "proves": "Reduce-only is latched on chain: increasing orders revert",
+    "hash": "0x3105fc64b136633fe45b0030c05e5a94662c238a2c54f351eea2f3850b21110e",
+    "status": "reverted (expected)",
+    "decoded": "ReduceOnly() 0x5b0f71a2"
   }
 ]

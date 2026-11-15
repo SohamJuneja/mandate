@@ -6,8 +6,8 @@
 | 1 Contracts + tests | ✅ done | 38/38 tests: 36 unit (mocks, 2 fuzz × 10k runs) + 2 fork (real protocol, pinned block 50,487,900) |
 | 2 Deploy + live evidence | ✅ done | factory + vault live; 11 evidence rows incl. 2 on-chain reverts; evidence/EVIDENCE.md |
 | 3 Leader agent | ✅ done | 8 live orders via vault.trade(), 3 pre-check refusals journaled, ended flat, NAV 27.4977 → 27.5725; MCP server smoke-tested |
-| 4 Frontend | ⏳ | |
-| 5 Reactivity switch | ⏳ | |
+| 4 Frontend | ✅ done | web/: list, detail (pps chart, mandate, positions, refused orders, deposit/redeem), create; npm run build OK; screenshots/ |
+| 5 Reactivity switch | ✅ done | on-chain subscription; guard fired in the SAME block as the fill, latched reduce-only and flattened; ReduceOnly revert on chain |
 | 6 Docs | ⏳ | |
 
 ## Phase 0: discovery
@@ -53,3 +53,17 @@
 
 - agent/leader.ts (core), agent/run.ts (autonomous loop), agent/mcp.ts (MCP: get_vault, get_mandate, propose_trade, trade, cancel), agent/mcp-smoke.ts (PASS).
 - Live run: 8 IOC orders on BTC/ETH, all through vault.trade(), ended flat. NAV 27.4977 → 27.5725 (+0.27%), pps 1.00238. Journal: agent/journal.jsonl (38 lines: 3 precheck_refused NotionalCapExceeded for ×4 sizes, then resized ×3). Tx links in evidence/EVIDENCE.md (Phase 3 section).
+
+## Phase 4: frontend
+
+- web/ (Vite + React + viem, injected wallet). Reads the factory, vaults, bank and pools from chain (multicall + archive eth_call for the share-price chart). Trade history and refused orders come from the public explorer tx list, and each refusal reason is decoded by replaying the tx with eth_call at the parent block.
+- npm run build passes. Screenshots: screenshots/list.png, vault.png, create.png, vault-mobile.png.
+
+## Phase 5: Reactivity safety switch
+
+- MandateGuard [0x7aaf47230520a7d1ebe07f862aca3b66e204d732](https://explorer.testnet.somnia.network/tokyo/address/0x7aaf47230520a7d1ebe07f862aca3b66e204d732), subscription id 44122688 on precompile 0x0100 (PositionUpdated, topic1 = tripwire vault).
+- Tripwire vault [0xfAf0f9A5E71867A7ccaAff005082B9A71333A396](https://explorer.testnet.somnia.network/tokyo/address/0xfAf0f9A5E71867A7ccaAff005082B9A71333A396) (BTC, 3x, drawdown 20 bps, 5 USDso).
+- Fill 1 (open 0.00023 BTC) → guard fired in the same block 50505412, inside the band, no action.
+- Fill 2 (reducing slice after the mark moved) → guard fired in the same block 50505949: reduce-only latched, remaining position closed ([0xa40b162a…](https://explorer.testnet.somnia.network/tokyo/tx/0xa40b162a22f33df9e3278ca053016c341e367ed0d47f07f01169ba1473c13964)). Its own close re-triggered it once (no-op).
+- Leader buy after the breach reverted ReduceOnly on chain ([0x3105fc64…](https://explorer.testnet.somnia.network/tokyo/tx/0x3105fc64b136633fe45b0030c05e5a94662c238a2c54f351eea2f3850b21110e)).
+- Tests: 41/41 (3 new guard tests).

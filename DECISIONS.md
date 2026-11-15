@@ -111,3 +111,25 @@ Choices made while working unattended, newest last. Each says what was decided a
   stdout is reserved for the protocol; all logs go to stderr.
 - **D3.5 The dry-run journal** from testing the loop is kept separately as
   `agent/journal-dryrun.jsonl`. `agent/journal.jsonl` is the live run only.
+
+## Phase 5
+
+- **D5.1 On-chain subscription, not the off-chain fallback.** Hideki answers on the reactivity
+  precompile `0x0100` and `somnia_reactivityGetSubscriptions`, so the preferred design was used.
+  No off-chain keeper was needed; `MandateGuard.poke(vault)` exists as a manual fallback.
+- **D5.2 The subscription owner is the deployer EOA** (it holds more than the 32 STT minimum).
+  Handler gas is billed to it per invocation (≤ 12M gas at ≤ 20 gwei). No STT was parked in a contract.
+- **D5.3 One generic guard for every vault.** It reads the vault from PositionUpdated's indexed
+  `account` (topic1), checks `factory.isVault`, and never reverts in the reactive path.
+  Subscriptions filter on emitter = MarginBank and topic1 = the vault.
+- **D5.4 Mirror the handler interface** instead of importing `@somnia-chain/reactivity-contracts`,
+  which pins solc 0.8.30 (this repo builds on 0.8.26). The selector is the same,
+  `onEvent(address,bytes32[],bytes)`, and the guard also implements ERC-165.
+- **D5.5 Drawdown 20 bps instead of the suggested 50**, so a tiny, cheap position could trip it.
+  Price moves emit no event, so the trigger is the next fill on the vault. The first fill (the
+  open) left pps at 0.99968, inside the band, and the guard correctly did nothing. After the mark
+  moved, a small reducing fill triggered the guard, which found the breach and flattened in the
+  same block.
+- **D5.6 Subscription left active.** It only fires on fills of the (now flat, reduce-only)
+  tripwire vault, so it costs nothing while idle. To remove it: the deployer calls
+  `unsubscribe(44122688)` on `0x0100`.

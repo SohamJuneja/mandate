@@ -25,6 +25,29 @@
           "builderFeeBpsTimes1k": "1000"
         }
       }
+    },
+    "tripwire": {
+      "address": "0xfAf0f9A5E71867A7ccaAff005082B9A71333A396",
+      "leader": "0xD791cd3163e56362778E04A123c3d81000f7A610",
+      "tx": "0x14066af3dc0812be4bdbdf5f2cd63aaaefca833a94c2f28e94b7b18d0f485047",
+      "params": {
+        "name": "Mandate Tripwire (reactivity demo)",
+        "symbol": "mTRIP",
+        "leader": "0xD791cd3163e56362778E04A123c3d81000f7A610",
+        "mandate": {
+          "allowedPools": [
+            "0x4181dd08E73BbCdd1Ba3E615A18f6abD941b94C0"
+          ],
+          "maxLeverageX1e2": "300",
+          "maxNotionalPerPool": "25000000000000000000",
+          "drawdownBps": 20,
+          "perfFeeBps": 1000,
+          "leaderMinShareBps": 500,
+          "lockSeconds": 120,
+          "builder": "0x6DFa3A03C1a46fC424a57a4c2A11c68c9AfAF80e",
+          "builderFeeBpsTimes1k": "1000"
+        }
+      }
     }
   },
   "steps": {
@@ -76,9 +99,36 @@
     "redeem-depositor2-half": {
       "hash": "0x078ee210d905378e53f7a935093b25c0d99fa40082d72084d9e505c00c26a7a2",
       "at": "2026-11-15T00:50:01.233Z"
+    },
+    "p5-create-vault": {
+      "hash": "0x14066af3dc0812be4bdbdf5f2cd63aaaefca833a94c2f28e94b7b18d0f485047",
+      "at": "2026-11-15T01:09:20.785Z"
+    },
+    "p5-deposit": {
+      "hash": "0x9fc1710645953d2743951c305ff0f603fa043aa430e98c5a24ee1c712a3abb87",
+      "at": "2026-11-15T01:09:24.993Z"
+    },
+    "p5-deploy-guard": {
+      "hash": "0x4dfd42b741655bff5165f242a059839d41fa61600316484904dad5ad984119c1",
+      "at": "2026-11-15T01:09:26.797Z"
+    },
+    "p5-subscribe": {
+      "hash": "0x84da52e423eb3ab44740732a392abfa94102b2cbc23fee00cd417d25a11a466e",
+      "at": "2026-11-15T01:09:29.163Z",
+      "note": "subscription 44122688"
+    },
+    "p5-trip": {
+      "hash": "0xb83c3e971b93f041bb031b6adb1c0df7c6b50fe58088b53c348ffa7b29adb46a",
+      "at": "2026-11-15T01:09:32.455Z"
+    },
+    "p5-breach": {
+      "hash": "0x6071b3554e84127ca5535708838a483742352ec8223cffccccb90551402db022",
+      "at": "2026-11-15T01:10:29.535Z"
     }
   },
   "collateral": "0xed7993A74dAe1e6656B704A424DcD8711aAf4F72",
   "factory": "0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58",
-  "factoryTx": "0xcc8d75a61c292221d99634b96373b9e2758f866eb69e1ae52bd7dd9f5879c54a"
+  "factoryTx": "0xcc8d75a61c292221d99634b96373b9e2758f866eb69e1ae52bd7dd9f5879c54a",
+  "guard": "0x7aaf47230520a7d1ebe07f862aca3b66e204d732",
+  "subscriptionId": "44122688"
 }

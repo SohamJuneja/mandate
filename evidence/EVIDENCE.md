@@ -12,9 +12,10 @@ pps = NAV / share supply.
 | USDso (live from `getSystemConfig`) | [`0xed7993A74dAe1e6656B704A424DcD8711aAf4F72`](https://explorer.testnet.somnia.network/tokyo/address/0xed7993A74dAe1e6656B704A424DcD8711aAf4F72) |
 | MandateFactory | [`0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58`](https://explorer.testnet.somnia.network/tokyo/address/0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58) |
 | MandateVault (main) | [`0x1F3c6D3197b3d0BfE7E8D87AD56Ac2B32E53D2eF`](https://explorer.testnet.somnia.network/tokyo/address/0x1F3c6D3197b3d0BfE7E8D87AD56Ac2B32E53D2eF) |
+| MandateVault (tripwire) | [`0xfAf0f9A5E71867A7ccaAff005082B9A71333A396`](https://explorer.testnet.somnia.network/tokyo/address/0xfAf0f9A5E71867A7ccaAff005082B9A71333A396) |
 
-Run totals (deployments/ledger.json): **35 USDso** deposited into vaults (cap 45) ·
-**0.8863 STT** of gas burned (cap 15) · 24 transactions.
+Run totals (deployments/ledger.json): **40 USDso** deposited into vaults (cap 45) ·
+**1.2745 STT** of gas burned (cap 15) · 32 transactions.
 
 ## Phase 2: deploy and live evidence
 
@@ -45,6 +46,21 @@ Run totals (deployments/ledger.json): **35 USDso** deposited into vaults (cap 45
 | 7 | Agent buy 0.00039 BTC (close (target 1)) | AI leader trades only via vault.trade(); pre-checked against the mandate with eth_call before sending | [0x0b0cd3dd…](https://explorer.testnet.somnia.network/tokyo/tx/0x0b0cd3dd53e7766376037a525736e7d8b88b01f420da48d09fb9949c0c621934) | ✅ success | NAV 27.558062 · pps 1.001987 · pos BTC -0.00039, ETH -0.012<br>→ NAV 27.551449 · pps 1.001672 · pos BTC 0, ETH -0.012 |
 | 8 | Agent buy 0.012 ETH (close (target 1)) | AI leader trades only via vault.trade(); pre-checked against the mandate with eth_call before sending | [0xee605f51…](https://explorer.testnet.somnia.network/tokyo/tx/0xee605f5195bfbf450502787872a7580516c78d429d1a72e17b0b264c00bf7746) | ✅ success | NAV 27.564535 · pps 1.002148 · pos BTC 0, ETH -0.012<br>→ NAV 27.572516 · pps 1.002380 · pos BTC 0, ETH 0 |
 
+## Phase 5: Reactivity safety switch
+
+| # | Step | What it proves | Tx | Result | NAV / pps before → after |
+|---|---|---|---|---|---|
+| 1 | Create the tripwire vault | BTC only, 3x, drawdown breaker at 20 bps: a tiny loss must trip it | [0x14066af3…](https://explorer.testnet.somnia.network/tokyo/tx/0x14066af3dc0812be4bdbdf5f2cd63aaaefca833a94c2f28e94b7b18d0f485047) | ✅ success | vault 0xfAf0f9A5E71867A7ccaAff005082B9A71333A396 |
+| 2 | Leader seeds the tripwire vault with 5 USDso | First deposit by the leader; high-water mark set at 1.0 | [0x9fc17106…](https://explorer.testnet.somnia.network/tokyo/tx/0x9fc1710645953d2743951c305ff0f603fa043aa430e98c5a24ee1c712a3abb87) | ✅ success | NAV 5 · pps 1· bank free 5 locked 0 |
+| 3 | Deploy MandateGuard | A reactivity handler with no funds and no privileges: checkpoint() is public, closePosition() opens to anyone on breach | [0x4dfd42b7…](https://explorer.testnet.somnia.network/tokyo/tx/0x4dfd42b741655bff5165f242a059839d41fa61600316484904dad5ad984119c1) | ✅ success | guard 0x7aaf47230520a7d1ebe07f862aca3b66e204d732 |
+| 4 | Subscribe on chain (id 44122688) | Reactivity precompile 0x0100: MarginBank.PositionUpdated with topic1 = vault → MandateGuard.onEvent, 12M gas, owner = deployer EOA | [0x84da52e4…](https://explorer.testnet.somnia.network/tokyo/tx/0x84da52e423eb3ab44740732a392abfa94102b2cbc23fee00cd417d25a11a466e) | ✅ success |  |
+| 5 | Leader opens a 23000-unit BTC long (~2.9x) | Fill emits MarginBank.PositionUpdated(account = vault): the subscription's trigger | [0xb83c3e97…](https://explorer.testnet.somnia.network/tokyo/tx/0xb83c3e971b93f041bb031b6adb1c0df7c6b50fe58088b53c348ffa7b29adb46a) | ✅ success | NAV 5 · pps 1· bank free 5 locked 0 · hwm 1 |
+| 6 | Reactive call: MandateGuard.onEvent (same block as the fill) | Validators invoked the guard; pps 0.999684 still inside the band → no action | [0x2b6f58a2…](https://explorer.testnet.somnia.network/tokyo/tx/0x2b6f58a201e81a63cf3a644941a864fcc7063591343ebdeeab7a70144e6e2070) | ✅ success | NAV 4.9972 · pps 0.999449· bank free 4.9985 locked 0 · pos BTC 23000 · hwm 1 |
+| 7 | Mark moved against the vault; leader sells a 13000-unit slice | Reducing orders stay allowed; the fill emits PositionUpdated → reactive guard | [0x6071b355…](https://explorer.testnet.somnia.network/tokyo/tx/0x6071b3554e84127ca5535708838a483742352ec8223cffccccb90551402db022) | ✅ success | NAV 4.9828 · pps 0.996561· bank free 4.9985 locked 0 · pos BTC 23000 · hwm 1 |
+| 8 | Reactive call: MandateGuard.onEvent (same block as the fill) | Vault is breached (pps 0.995849 vs high 1): reduce-only latched and the guard sent closePosition (1 market closed), with no keeper and no leader | [0xa40b162a…](https://explorer.testnet.somnia.network/tokyo/tx/0xa40b162a22f33df9e3278ca053016c341e367ed0d47f07f01169ba1473c13964) | ✅ success | NAV 4.9792 · pps 0.995849· bank free 4.9792 locked 0 · REDUCE-ONLY · hwm 1 |
+| 9 | Reactive call: MandateGuard.onEvent (same block as the fill) | Vault is breached (pps 0.995849 vs high 1): reduce-only latched and the guard sent closePosition (0 market closed), with no keeper and no leader | [0x4cbb7722…](https://explorer.testnet.somnia.network/tokyo/tx/0x4cbb77224dbd7f1b2c5b51cfb70d742175e827c2ac38d450d32fa426a74c405e) | ✅ success | NAV 4.9792 · pps 0.995849· bank free 4.9792 locked 0 · REDUCE-ONLY · hwm 1 |
+| 10 | Leader tries to buy again after the breach | Reduce-only is latched on chain: increasing orders revert | [0x3105fc64…](https://explorer.testnet.somnia.network/tokyo/tx/0x3105fc64b136633fe45b0030c05e5a94662c238a2c54f351eea2f3850b21110e) | ⛔ reverted (expected)<br>`ReduceOnly() 0x5b0f71a2` |  |
+
 ## All transactions (from the spend ledger)
 
 | Step | Status | Tx |
@@ -73,3 +89,11 @@ Run totals (deployments/ledger.json): **35 USDso** deposited into vaults (cap 45
 | leader → vault.trade(ETH, SELL, 12000000000000000, type 2) | success | https://explorer.testnet.somnia.network/tokyo/tx/0x006951e9836b25521dc837bed7992ed7079e917d653f056fdf56b3ed99334332 |
 | leader → vault.trade(BTC, BUY, 39000, type 2) | success | https://explorer.testnet.somnia.network/tokyo/tx/0x0b0cd3dd53e7766376037a525736e7d8b88b01f420da48d09fb9949c0c621934 |
 | leader → vault.trade(ETH, BUY, 12000000000000000, type 2) | success | https://explorer.testnet.somnia.network/tokyo/tx/0xee605f5195bfbf450502787872a7580516c78d429d1a72e17b0b264c00bf7746 |
+| factory.createVault(tripwire) | success | https://explorer.testnet.somnia.network/tokyo/tx/0x14066af3dc0812be4bdbdf5f2cd63aaaefca833a94c2f28e94b7b18d0f485047 |
+| leader approves exactly 5 USDso | success | https://explorer.testnet.somnia.network/tokyo/tx/0x775db52778c73ea40a667b0b29701977ee5a4f555c4941c8d12bc8a9c164fab9 |
+| leader deposits 5 USDso | success | https://explorer.testnet.somnia.network/tokyo/tx/0x9fc1710645953d2743951c305ff0f603fa043aa430e98c5a24ee1c712a3abb87 |
+| deploy MandateGuard(factory) | success | https://explorer.testnet.somnia.network/tokyo/tx/0x4dfd42b741655bff5165f242a059839d41fa61600316484904dad5ad984119c1 |
+| deployer → precompile 0x0100 subscribe(PositionUpdated[account=vault] → guard.onEvent) | success | https://explorer.testnet.somnia.network/tokyo/tx/0x84da52e423eb3ab44740732a392abfa94102b2cbc23fee00cd417d25a11a466e |
+| leader → vault.trade(BTC, BUY 23000, IOC) | success | https://explorer.testnet.somnia.network/tokyo/tx/0xb83c3e971b93f041bb031b6adb1c0df7c6b50fe58088b53c348ffa7b29adb46a |
+| leader → vault.trade(BTC, SELL 13000, IOC) (reducing slice) | success | https://explorer.testnet.somnia.network/tokyo/tx/0x6071b3554e84127ca5535708838a483742352ec8223cffccccb90551402db022 |
+| leader → vault.trade(BTC, BUY) after the breach | reverted | https://explorer.testnet.somnia.network/tokyo/tx/0x3105fc64b136633fe45b0030c05e5a94662c238a2c54f351eea2f3850b21110e |

@@ -4,6 +4,7 @@ pragma solidity ^0.8.24;
 import {Test, Vm} from "forge-std/Test.sol";
 import {MandateFactory} from "../src/MandateFactory.sol";
 import {MandateVault} from "../src/MandateVault.sol";
+import {MandateGuard, IMandateFactoryView} from "../src/MandateGuard.sol";
 import {IMarginBank} from "../src/interfaces/IDreamDex.sol";
 import {MockUSD, MockMarginBank, MockPerpPool} from "./mocks/Mocks.sol";
 
@@ -788,5 +789,60 @@ contract MandateVaultTest is Test {
     function depositAs(address who, uint256 amount) external returns (uint256) {
         vm.prank(who);
         return vault.deposit(amount);
+    }
+
+    // ------------------------------------------------------------------ reactivity guard
+    function _topics(address v) internal pure returns (bytes32[] memory t) {
+        t = new bytes32[](3);
+        t[0] = keccak256("PositionUpdated(address,address,int128,uint128,int256,int256)");
+        t[1] = bytes32(uint256(uint160(v)));
+        t[2] = bytes32(0);
+    }
+
+    function test_guard_onlyPrecompile() public {
+        MandateGuard g = new MandateGuard(IMandateFactoryView(address(factory)));
+        vm.expectRevert(MandateGuard.OnlyReactivityPrecompile.selector);
+        g.onEvent(address(bank), _topics(address(vault)), "");
+        vm.expectRevert(MandateGuard.NotAMandateVault.selector);
+        g.poke(address(0xBEEF));
+        assertTrue(g.supportsInterface(0x01ffc9a7));
+    }
+
+    function test_guard_breachLatchesAndFlattensInOneCall() public {
+        MandateGuard g = new MandateGuard(IMandateFactoryView(address(factory)));
+        _seed();
+        _trade(btc, true, 64_100e18, 50_000, IOC);
+        _trade(eth, true, 1_900e18, 4e15, POST_ONLY);
+        btc.setMark(53_120e18); // −17% on the position → pps 0.845 < 0.85
+        vm.recordLogs();
+        vm.prank(address(0x0100));
+        g.onEvent(address(bank), _topics(address(vault)), "");
+        assertTrue(vault.reduceOnly(), "latched");
+        assertEq(bank.getPosition(address(vault), address(btc)).size, 0, "flattened");
+        assertEq(eth.openOrderCount(address(vault)), 0, "resting orders cancelled");
+        Vm.Log[] memory logs = vm.getRecordedLogs();
+        bool fired;
+        for (uint256 i; i < logs.length; ++i) if (logs[i].topics[0] == MandateGuard.GuardFired.selector) fired = true;
+        assertTrue(fired);
+    }
+
+    function test_guard_noBreach_noClose_andIgnoresStrangers() public {
+        MandateGuard g = new MandateGuard(IMandateFactoryView(address(factory)));
+        _seed();
+        _trade(btc, true, 64_100e18, 50_000, IOC);
+        btc.setMark(63_000e18); // small loss, inside the band
+        vm.prank(address(0x0100));
+        g.onEvent(address(bank), _topics(address(vault)), "");
+        assertFalse(vault.reduceOnly());
+        assertEq(bank.getPosition(address(vault), address(btc)).size, 50_000, "untouched");
+        // An event for a non-vault account is ignored, not reverted.
+        vm.prank(address(0x0100));
+        g.onEvent(address(bank), _topics(alice), "");
+        // poke(): the off-chain fallback path.
+        btc.setMark(53_120e18);
+        vm.prank(keeper);
+        g.poke(address(vault));
+        assertTrue(vault.reduceOnly());
+        assertEq(bank.getPosition(address(vault), address(btc)).size, 0);
     }
 }

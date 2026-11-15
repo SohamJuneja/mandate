@@ -1,6 +1,6 @@
 {
-  "usdsoIntoVaults": "35000000000000000000",
-  "sttGas": "886385916000000000",
+  "usdsoIntoVaults": "40000000000000000000",
+  "sttGas": "1274503584000000000",
   "txs": [
     {
       "step": "deployer → leader 10 USDso",
@@ -145,6 +145,54 @@
       "hash": "0xee605f5195bfbf450502787872a7580516c78d429d1a72e17b0b264c00bf7746",
       "gasWei": "17145180000000000",
       "status": "success"
+    },
+    {
+      "step": "factory.createVault(tripwire)",
+      "hash": "0x14066af3dc0812be4bdbdf5f2cd63aaaefca833a94c2f28e94b7b18d0f485047",
+      "gasWei": "273695808000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader approves exactly 5 USDso",
+      "hash": "0x775db52778c73ea40a667b0b29701977ee5a4f555c4941c8d12bc8a9c164fab9",
+      "gasWei": "1563606000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader deposits 5 USDso",
+      "hash": "0x9fc1710645953d2743951c305ff0f603fa043aa430e98c5a24ee1c712a3abb87",
+      "gasWei": "11394570000000000",
+      "status": "success"
+    },
+    {
+      "step": "deploy MandateGuard(factory)",
+      "hash": "0x4dfd42b741655bff5165f242a059839d41fa61600316484904dad5ad984119c1",
+      "gasWei": "53699322000000000",
+      "status": "success"
+    },
+    {
+      "step": "deployer → precompile 0x0100 subscribe(PositionUpdated[account=vault] → guard.onEvent)",
+      "hash": "0x84da52e423eb3ab44740732a392abfa94102b2cbc23fee00cd417d25a11a466e",
+      "gasWei": "1819920000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(BTC, BUY 23000, IOC)",
+      "hash": "0xb83c3e971b93f041bb031b6adb1c0df7c6b50fe58088b53c348ffa7b29adb46a",
+      "gasWei": "26514882000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(BTC, SELL 13000, IOC) (reducing slice)",
+      "hash": "0x6071b3554e84127ca5535708838a483742352ec8223cffccccb90551402db022",
+      "gasWei": "18967584000000000",
+      "status": "success"
+    },
+    {
+      "step": "leader → vault.trade(BTC, BUY) after the breach",
+      "hash": "0x3105fc64b136633fe45b0030c05e5a94662c238a2c54f351eea2f3850b21110e",
+      "gasWei": "461976000000000",
+      "status": "reverted"
     }
   ]
 }

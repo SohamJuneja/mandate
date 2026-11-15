@@ -1,0 +1,36 @@
+
+▶ p5-create-vault
+  tx  factory.createVault(tripwire)
+      https://explorer.testnet.somnia.network/tokyo/tx/0x14066af3dc0812be4bdbdf5f2cd63aaaefca833a94c2f28e94b7b18d0f485047
+      ✓ block 50505302, gasUsed 45615968
+      tripwire vault 0xfAf0f9A5E71867A7ccaAff005082B9A71333A396
+
+▶ p5-deposit
+  tx  leader approves exactly 5 USDso
+      https://explorer.testnet.somnia.network/tokyo/tx/0x775db52778c73ea40a667b0b29701977ee5a4f555c4941c8d12bc8a9c164fab9
+      ✓ block 50505323, gasUsed 260601
+  tx  leader deposits 5 USDso
+      https://explorer.testnet.somnia.network/tokyo/tx/0x9fc1710645953d2743951c305ff0f603fa043aa430e98c5a24ee1c712a3abb87
+      ✓ block 50505341, gasUsed 1899095
+      NAV 5 · pps 1 · supply 5 · bank free 5 locked 0 · wallet 0
+
+▶ p5-deploy-guard
+  tx  deploy MandateGuard(factory)
+      https://explorer.testnet.somnia.network/tokyo/tx/0x4dfd42b741655bff5165f242a059839d41fa61600316484904dad5ad984119c1
+      ✓ block 50505364, gasUsed 8949887
+      guard 0x7aaf47230520a7d1ebe07f862aca3b66e204d732
+
+▶ p5-subscribe
+  tx  deployer → precompile 0x0100 subscribe(PositionUpdated[account=vault] → guard.onEvent)
+      https://explorer.testnet.somnia.network/tokyo/tx/0x84da52e423eb3ab44740732a392abfa94102b2cbc23fee00cd417d25a11a466e
+      ✓ block 50505382, gasUsed 303320
+      subscription id 44122688 · somnia_reactivityGetSubscriptions → ["0x2a14240"]
+
+▶ p5-trip
+      before: NAV 5 · pps 1 · supply 5 · bank free 5 locked 0 · wallet 0 · hwm 1 · floor 0.998
+  tx  leader → vault.trade(BTC, BUY 23000, IOC)
+      https://explorer.testnet.somnia.network/tokyo/tx/0xb83c3e971b93f041bb031b6adb1c0df7c6b50fe58088b53c348ffa7b29adb46a
+      ✓ block 50505412, gasUsed 4419147
+      ⚡ GuardFired in block 50505412 (SAME block as the fill) reduceOnly=false closed=0 pps=0.999684 · https://explorer.testnet.somnia.network/tokyo/tx/0x2b6f58a201e81a63cf3a644941a864fcc7063591343ebdeeab7a70144e6e2070
+
+final: NAV 4.9962 · pps 0.999247 · supply 5 · bank free 4.9985 locked 0 · wallet 0 · pos BTC 23000 · hwm 1

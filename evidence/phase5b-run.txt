@@ -1,0 +1,13 @@
+watching 0xfAf0f9A5E71867A7ccaAff005082B9A71333A396: pps 0.998794 floor 0.998
+  pps 0.999467 (trigger ≤ 0.9984)     pps 0.998586 (trigger ≤ 0.9984)     pps 0.998557 (trigger ≤ 0.9984)     pps 0.996561 (trigger ≤ 0.9984)   
+  tx  leader → vault.trade(BTC, SELL 13000, IOC) (reducing slice)
+      https://explorer.testnet.somnia.network/tokyo/tx/0x6071b3554e84127ca5535708838a483742352ec8223cffccccb90551402db022
+      ✓ block 50505949, gasUsed 3161264
+  ⚡ GuardFired block 50505949 (same block) reduceOnly=true closed=1 · https://explorer.testnet.somnia.network/tokyo/tx/0xa40b162a22f33df9e3278ca053016c341e367ed0d47f07f01169ba1473c13964
+  after: NAV 4.9792 · pps 0.995849 · supply 5 · bank free 4.9792 locked 0 · wallet 0 · REDUCE-ONLY
+  ⚡ GuardFired block 50505949 (same block) reduceOnly=true closed=0 · https://explorer.testnet.somnia.network/tokyo/tx/0x4cbb77224dbd7f1b2c5b51cfb70d742175e827c2ac38d450d32fa426a74c405e
+  after: NAV 4.9792 · pps 0.995849 · supply 5 · bank free 4.9792 locked 0 · wallet 0 · REDUCE-ONLY
+  tx  leader → vault.trade(BTC, BUY) after the breach
+      https://explorer.testnet.somnia.network/tokyo/tx/0x3105fc64b136633fe45b0030c05e5a94662c238a2c54f351eea2f3850b21110e
+      ✓ reverted on chain (block 50505990); replay decodes ReduceOnly() [0x5b0f71a2]
+final: NAV 4.9792 · pps 0.995849 · supply 5 · bank free 4.9792 locked 0 · wallet 0 · REDUCE-ONLY · reduceOnly true
