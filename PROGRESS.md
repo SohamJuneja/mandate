@@ -8,7 +8,7 @@
 | 3 Leader agent | ✅ done | 8 live orders via vault.trade(), 3 pre-check refusals journaled, ended flat, NAV 27.4977 → 27.5725; MCP server smoke-tested |
 | 4 Frontend | ✅ done | web/: list, detail (pps chart, mandate, positions, refused orders, deposit/redeem), create; npm run build OK; screenshots/ |
 | 5 Reactivity switch | ✅ done | on-chain subscription; guard fired in the SAME block as the fill, latched reduce-only and flattened; ReduceOnly revert on chain |
-| 6 Docs | ⏳ | |
+| 6 Docs | ✅ done | README (judges table, mermaid, enforcement, business model, mainnet path, limitations), docs/X_POSTS.md, docs/DEMO_SCRIPT.md, 5 feedback reports |
 
 ## Phase 0: discovery
 
