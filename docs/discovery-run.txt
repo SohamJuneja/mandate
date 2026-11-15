@@ -1,0 +1,17 @@
+scanned 3 windows (3000 blocks), 13 accounts with PositionUpdated
+account 0x85C6956392AeeA8dceC55E6DED069506f248a831 @ block 50477950
+    bank.getAccountEquity        = 3473250.964024
+    unlocked + ΣuPnL − Σfunding  = 3473250.964024  (Δ vs bank 5 wei)
+    unlocked + ΣuPnL             = 3473249.568992  (Δ vs bank -1395031343494425364 wei)
+account 0x47537E3A3ea6e9391F3B26Ea45618db6828c8bfF @ block 50478003
+    bank.getAccountEquity        = 4444691.666430
+    unlocked + ΣuPnL − Σfunding  = 4444691.666430  (Δ vs bank 12 wei)
+    unlocked + ΣuPnL             = 4444691.942562  (Δ vs bank 276132333395712506 wei)
+account 0x6C2986A550DC4212b49a1710d8466553E3761ce4 @ block 50478075
+    bank.getAccountEquity        = 864.187271
+    unlocked + ΣuPnL − Σfunding  = 864.187271  (Δ vs bank 1 wei)
+    unlocked + ΣuPnL             = 864.187271  (Δ vs bank 1 wei)
+account 0x8239544DB8718D75111e4AEedc42036742D22E68 @ block 50478084
+    bank.getAccountEquity        = 1835351.100603
+    unlocked + ΣuPnL − Σfunding  = 1835351.100603  (Δ vs bank 0 wei)
+    unlocked + ΣuPnL             = 1835351.100603  (Δ vs bank 0 wei)

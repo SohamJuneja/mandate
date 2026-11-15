@@ -1,0 +1,23 @@
+[profile.default]
+src = "src"
+out = "out"
+test = "test"
+libs = ["lib"]
+solc_version = "0.8.26"
+evm_version = "cancun"
+optimizer = true
+optimizer_runs = 200
+via_ir = false
+# Somnia charges ~4.9k gas per deployed byte: no metadata hash in the runtime.
+bytecode_hash = "none"
+cbor_metadata = false
+remappings = [
+  "forge-std/=lib/forge-std/src/",
+  "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+]
+
+[profile.default.fuzz]
+runs = 512
+
+[rpc_endpoints]
+hideki = "https://api.hideki2.infra.testnet.somnia.network"
