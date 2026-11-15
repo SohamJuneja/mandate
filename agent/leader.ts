@@ -7,6 +7,7 @@ import { encodeFunctionData, formatUnits, parseUnits, type Address, type Hex } f
 import {
   BTC_POOL,
   ETH_POOL,
+  SOL_POOL,
   MARGIN_BANK,
   ORDER_GAS,
   ROOT,
@@ -266,3 +267,30 @@ export const fmtProposal = (p: Proposal) => ({
   simulation: p.simulation,
   wouldPass: p.wouldPass,
 });
+
+/**
+ * DEMO ONLY. Sends an order that the vault is expected to REFUSE, so the refusal gets a real
+ * transaction hash on chain. It simulates first and refuses to send if the simulation would
+ * succeed, so it can never place a trade that the normal `trade` path would not.
+ */
+export const ALL_POOLS: Record<string, Address> = { BTC: BTC_POOL, ETH: ETH_POOL, SOL: SOL_POOL };
+export async function forceRefusedTrade(req: { market: string; side: "buy" | "sell"; quantity?: string }, vault = vaultAddress()) {
+  const pool = ALL_POOLS[req.market];
+  if (!pool) throw new Error(`unknown market ${req.market}; known: ${Object.keys(ALL_POOLS).join(", ")}`);
+  await assertChain();
+  const isBid = req.side === "buy";
+  const [b, ob, m] = await Promise.all([book(pool), oneBase(pool), mark(pool)]);
+  const qty = req.quantity ? parseUnits(req.quantity, decimalsOf(ob)) : b.minQty;
+  const price = roundTick(isBid ? (m * 10_200n) / 10_000n : (m * 9_800n) / 10_000n, b.tick, isBid);
+  const tx = { to: vault, gas: ORDER_GAS, data: tradeData(pool, isBid, price, qty, ORDER_TYPES.ioc) };
+  let expected: string | undefined;
+  try {
+    await simulate("force_trade_for_demo (simulate)", leaderAccount().address, tx);
+  } catch (e) {
+    if (!(e instanceof RevertError)) throw e;
+    expected = decodeRevertName(e.data).name;
+  }
+  if (!expected) throw new Error("refusing: this order would SUCCEED. force_trade_for_demo only sends orders the vault refuses; use `trade` for real orders.");
+  const r = await send(`leader → vault.trade(${req.market}, ${isBid ? "BUY" : "SELL"}, ${qty}) — demo: expected ${expected}`, leaderAccount(), tx, { expectRevert: expected, quiet: true });
+  return { sent: true, reverted: true, revert: r.revert?.name ?? expected, hash: r.hash, link: link(r.hash), market: req.market, side: req.side, qty: qty.toString(), price: usd(price, 2) };
+}

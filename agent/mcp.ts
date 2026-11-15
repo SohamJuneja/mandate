@@ -1,5 +1,6 @@
 // MCP server: lets any AI agent (Claude, Codex, …) be a Mandate vault leader.
-// Tools: get_vault, get_mandate, propose_trade (pre-check only), trade, cancel.
+// Tools: get_vault, get_mandate, propose_trade (pre-check only), trade, cancel,
+// plus force_trade_for_demo (DEMO ONLY: sends an order the vault refuses, to get an on-chain revert hash).
 // The signer is the leader key from .env; every trade goes through vault.trade(), so the agent
 // can never exceed the mandate or touch depositor funds, whatever it decides.
 //
@@ -11,7 +12,7 @@ console.log = console.error;
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
-import { cancel, execute, fmtProposal, getMandate, getVault, journal, propose, vaultAddress, type Market } from "./leader.ts";
+import { cancel, execute, fmtProposal, forceRefusedTrade, getMandate, getVault, journal, propose, vaultAddress, type Market } from "./leader.ts";
 
 const server = new McpServer({ name: "mandate-leader", version: "0.1.0" });
 const json = (x: unknown) => ({
@@ -95,6 +96,28 @@ server.registerTool(
     try {
       const r = await cancel(market as Market, orderIds, vaultAddress(), true);
       journal({ kind: "mcp_cancel", market, orderIds, tx: r.hash });
+      return json(r);
+    } catch (e) {
+      return fail(e);
+    }
+  },
+);
+
+server.registerTool(
+  "force_trade_for_demo",
+  {
+    description:
+      "DEMO ONLY: not for real trading. Sends an order that the vault is expected to REFUSE (e.g. a market outside the mandate, like SOL), skipping the pre-check gate so the refusal is a real reverted transaction with a hash on chain. It simulates first and will NOT send if the order would succeed, so it can never place a real trade. Returns the decoded revert reason and the explorer link. Costs a little gas.",
+    inputSchema: {
+      market: z.enum(["BTC", "ETH", "SOL"]).describe("Any dreamDEX market, including ones outside the mandate"),
+      side: z.enum(["buy", "sell"]),
+      quantity: z.string().optional().describe("Base quantity in human units. Defaults to the minimum size."),
+    },
+  },
+  async (args) => {
+    try {
+      const r = await forceRefusedTrade(args as any);
+      journal({ kind: "mcp_force_trade_for_demo", request: args, tx: r.hash, link: r.link, revert: r.revert });
       return json(r);
     } catch (e) {
       return fail(e);

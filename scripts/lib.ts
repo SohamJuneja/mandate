@@ -41,8 +41,8 @@ export const SOL_POOL: Address = "0xB483ec1fb34996638677c20ab087b16F1896FA53";
 export const SIM_GAS_FLOOR = 3_000_000n;
 export const ORDER_GAS = 10_000_000n;
 
-// Hard caps for the whole unattended run.
-export const CAP_USDSO_INTO_VAULTS = 45n * 10n ** 18n;
+// Hard caps for the whole run. USDso raised 45 → 52 for Phase 7 (LLM leader via MCP).
+export const CAP_USDSO_INTO_VAULTS = 52n * 10n ** 18n;
 export const CAP_STT_GAS = 15n * 10n ** 18n;
 
 export const transport = webSocket(WS_RPC, { retryCount: 5, timeout: 60_000 });
@@ -130,7 +130,7 @@ function writeLedger(l: Ledger) {
 export function reserveVaultDeposit(amount: bigint) {
   const l = readLedger();
   const next = BigInt(l.usdsoIntoVaults) + amount;
-  if (next > CAP_USDSO_INTO_VAULTS) throw new Error(`REFUSING: vault deposits would reach ${usd(next)} USDso > cap 45`);
+  if (next > CAP_USDSO_INTO_VAULTS) throw new Error(`REFUSING: vault deposits would reach ${usd(next)} USDso > cap ${usd(CAP_USDSO_INTO_VAULTS)}`);
   l.usdsoIntoVaults = next.toString();
   writeLedger(l);
 }

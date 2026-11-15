@@ -48,6 +48,29 @@
           "builderFeeBpsTimes1k": "1000"
         }
       }
+    },
+    "claude": {
+      "address": "0xf8819aA0Edc173fE0744eF52626C493996f70f47",
+      "leader": "0xa4EACD20C300158263aF13f4da065dE282D96a55",
+      "tx": "0xa2ee9f6cbed5f1c99bf50543909bc40de882be89d1ab1ce326c1661323d71a13",
+      "params": {
+        "name": "Claude-led BTC",
+        "symbol": "mCLAUDE",
+        "leader": "0xa4EACD20C300158263aF13f4da065dE282D96a55",
+        "mandate": {
+          "allowedPools": [
+            "0x4181dd08E73BbCdd1Ba3E615A18f6abD941b94C0"
+          ],
+          "maxLeverageX1e2": "200",
+          "maxNotionalPerPool": "15000000000000000000",
+          "drawdownBps": 1000,
+          "perfFeeBps": 1000,
+          "leaderMinShareBps": 500,
+          "lockSeconds": 120,
+          "builder": "0x6DFa3A03C1a46fC424a57a4c2A11c68c9AfAF80e",
+          "builderFeeBpsTimes1k": "1000"
+        }
+      }
     }
   },
   "steps": {
@@ -124,6 +147,22 @@
     "p5-breach": {
       "hash": "0x6071b3554e84127ca5535708838a483742352ec8223cffccccb90551402db022",
       "at": "2026-11-15T01:10:29.535Z"
+    },
+    "p7-fund-stt": {
+      "hash": "0x670b54514c2abd44bd7afc56d11cfba08d9fb7aa01a7fcaafae38ba331d72beb",
+      "at": "2026-11-15T10:29:18.288Z"
+    },
+    "p7-fund-usdso": {
+      "hash": "0x5660b734711a96d0860803208a6599e6d527c07cee4f2e4537edfdfc08bfc94b",
+      "at": "2026-11-15T10:29:20.018Z"
+    },
+    "p7-create-vault": {
+      "hash": "0xa2ee9f6cbed5f1c99bf50543909bc40de882be89d1ab1ce326c1661323d71a13",
+      "at": "2026-11-15T10:29:21.945Z"
+    },
+    "p7-deposit": {
+      "hash": "0x975ad95272ede3790c7c31912b7a23b625cfd216bc4d9f61bfedc006fab279e1",
+      "at": "2026-11-15T10:29:26.055Z"
     }
   },
   "collateral": "0xed7993A74dAe1e6656B704A424DcD8711aAf4F72",

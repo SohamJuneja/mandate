@@ -13,6 +13,7 @@ const PHASES: Record<string, string> = {
   "2": "Phase 2: deploy and live evidence",
   "3": "Phase 3: leader agent",
   "5": "Phase 5: Reactivity safety switch",
+  "7": "Phase 7: LLM leader via MCP",
 };
 
 let md = `# Evidence: Mandate on dreamDEX perps (Somnia Hideki testnet, chain 50383)
@@ -30,7 +31,7 @@ pps = NAV / share supply.
 | MandateFactory | ${addr(d.factory)} |
 ${Object.entries(d.vaults).map(([k, v]) => `| MandateVault (${k}) | ${addr(v.address)} |`).join("\n")}
 
-Run totals (deployments/ledger.json): **${usd(BigInt(ledger.usdsoIntoVaults))} USDso** deposited into vaults (cap 45) ·
+Run totals (deployments/ledger.json): **${usd(BigInt(ledger.usdsoIntoVaults))} USDso** deposited into vaults (cap 52; 45 until Phase 7) ·
 **${usd(BigInt(ledger.sttGas))} STT** of gas burned (cap 15) · ${ledger.txs.length} transactions.
 `;
 

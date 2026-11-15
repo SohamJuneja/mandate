@@ -248,5 +248,21 @@
     "hash": "0x3105fc64b136633fe45b0030c05e5a94662c238a2c54f351eea2f3850b21110e",
     "status": "reverted (expected)",
     "decoded": "ReduceOnly() 0x5b0f71a2"
+  },
+  {
+    "phase": "7",
+    "step": "Create \"Claude-led BTC\" for an LLM leader",
+    "proves": "Mandate fixed at deploy: BTC only, 2x, 15 USDso/market, 10% drawdown → reduce-only, 120 s lock; leader = a fresh key used only by the MCP server",
+    "hash": "0xa2ee9f6cbed5f1c99bf50543909bc40de882be89d1ab1ce326c1661323d71a13",
+    "status": "success",
+    "after": "vault 0xf8819aA0Edc173fE0744eF52626C493996f70f47"
+  },
+  {
+    "phase": "7",
+    "step": "LLM leader's key seeds the vault with 5 USDso",
+    "proves": "Leader deposits first; exact-amount approval; collateral goes into the vault's own MarginBank account",
+    "hash": "0x975ad95272ede3790c7c31912b7a23b625cfd216bc4d9f61bfedc006fab279e1",
+    "status": "success",
+    "after": "NAV 5 · pps 1 · supply 5 · bank free 5 locked 0 · wallet 0"
   }
 ]

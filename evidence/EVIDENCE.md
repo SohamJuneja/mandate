@@ -13,9 +13,10 @@ pps = NAV / share supply.
 | MandateFactory | [`0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58`](https://explorer.testnet.somnia.network/tokyo/address/0x139dd6fae2cdc3c729cab982bf9850dfd0ecea58) |
 | MandateVault (main) | [`0x1F3c6D3197b3d0BfE7E8D87AD56Ac2B32E53D2eF`](https://explorer.testnet.somnia.network/tokyo/address/0x1F3c6D3197b3d0BfE7E8D87AD56Ac2B32E53D2eF) |
 | MandateVault (tripwire) | [`0xfAf0f9A5E71867A7ccaAff005082B9A71333A396`](https://explorer.testnet.somnia.network/tokyo/address/0xfAf0f9A5E71867A7ccaAff005082B9A71333A396) |
+| MandateVault (claude) | [`0xf8819aA0Edc173fE0744eF52626C493996f70f47`](https://explorer.testnet.somnia.network/tokyo/address/0xf8819aA0Edc173fE0744eF52626C493996f70f47) |
 
-Run totals (deployments/ledger.json): **40 USDso** deposited into vaults (cap 45) ·
-**1.2745 STT** of gas burned (cap 15) · 32 transactions.
+Run totals (deployments/ledger.json): **45 USDso** deposited into vaults (cap 52; 45 until Phase 7) ·
+**1.5627 STT** of gas burned (cap 15) · 37 transactions.
 
 ## Phase 2: deploy and live evidence
 
@@ -61,6 +62,13 @@ Run totals (deployments/ledger.json): **40 USDso** deposited into vaults (cap 45
 | 9 | Reactive call: MandateGuard.onEvent (same block as the fill) | Vault is breached (pps 0.995849 vs high 1): reduce-only latched and the guard sent closePosition (0 market closed), with no keeper and no leader | [0x4cbb7722…](https://explorer.testnet.somnia.network/tokyo/tx/0x4cbb77224dbd7f1b2c5b51cfb70d742175e827c2ac38d450d32fa426a74c405e) | ✅ success | NAV 4.9792 · pps 0.995849· bank free 4.9792 locked 0 · REDUCE-ONLY · hwm 1 |
 | 10 | Leader tries to buy again after the breach | Reduce-only is latched on chain: increasing orders revert | [0x3105fc64…](https://explorer.testnet.somnia.network/tokyo/tx/0x3105fc64b136633fe45b0030c05e5a94662c238a2c54f351eea2f3850b21110e) | ⛔ reverted (expected)<br>`ReduceOnly() 0x5b0f71a2` |  |
 
+## Phase 7: LLM leader via MCP
+
+| # | Step | What it proves | Tx | Result | NAV / pps before → after |
+|---|---|---|---|---|---|
+| 1 | Create "Claude-led BTC" for an LLM leader | Mandate fixed at deploy: BTC only, 2x, 15 USDso/market, 10% drawdown → reduce-only, 120 s lock; leader = a fresh key used only by the MCP server | [0xa2ee9f6c…](https://explorer.testnet.somnia.network/tokyo/tx/0xa2ee9f6cbed5f1c99bf50543909bc40de882be89d1ab1ce326c1661323d71a13) | ✅ success | vault 0xf8819aA0Edc173fE0744eF52626C493996f70f47 |
+| 2 | LLM leader's key seeds the vault with 5 USDso | Leader deposits first; exact-amount approval; collateral goes into the vault's own MarginBank account | [0x975ad952…](https://explorer.testnet.somnia.network/tokyo/tx/0x975ad95272ede3790c7c31912b7a23b625cfd216bc4d9f61bfedc006fab279e1) | ✅ success | NAV 5 · pps 1· bank free 5 locked 0 |
+
 ## All transactions (from the spend ledger)
 
 | Step | Status | Tx |
@@ -97,3 +105,8 @@ Run totals (deployments/ledger.json): **40 USDso** deposited into vaults (cap 45
 | leader → vault.trade(BTC, BUY 23000, IOC) | success | https://explorer.testnet.somnia.network/tokyo/tx/0xb83c3e971b93f041bb031b6adb1c0df7c6b50fe58088b53c348ffa7b29adb46a |
 | leader → vault.trade(BTC, SELL 13000, IOC) (reducing slice) | success | https://explorer.testnet.somnia.network/tokyo/tx/0x6071b3554e84127ca5535708838a483742352ec8223cffccccb90551402db022 |
 | leader → vault.trade(BTC, BUY) after the breach | reverted | https://explorer.testnet.somnia.network/tokyo/tx/0x3105fc64b136633fe45b0030c05e5a94662c238a2c54f351eea2f3850b21110e |
+| deployer → CLAUDE_LEADER 3 STT for gas | success | https://explorer.testnet.somnia.network/tokyo/tx/0x670b54514c2abd44bd7afc56d11cfba08d9fb7aa01a7fcaafae38ba331d72beb |
+| deployer → CLAUDE_LEADER 6 USDso | success | https://explorer.testnet.somnia.network/tokyo/tx/0x5660b734711a96d0860803208a6599e6d527c07cee4f2e4537edfdfc08bfc94b |
+| factory.createVault("Claude-led BTC") | success | https://explorer.testnet.somnia.network/tokyo/tx/0xa2ee9f6cbed5f1c99bf50543909bc40de882be89d1ab1ce326c1661323d71a13 |
+| CLAUDE_LEADER approves exactly 5 USDso | success | https://explorer.testnet.somnia.network/tokyo/tx/0x0a0396bde400b41e590108a829ec381322cd8767593e5789218f5fb02a04e303 |
+| CLAUDE_LEADER deposits 5 USDso | success | https://explorer.testnet.somnia.network/tokyo/tx/0x975ad95272ede3790c7c31912b7a23b625cfd216bc4d9f61bfedc006fab279e1 |

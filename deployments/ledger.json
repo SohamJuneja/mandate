@@ -1,6 +1,6 @@
 {
-  "usdsoIntoVaults": "40000000000000000000",
-  "sttGas": "1274503584000000000",
+  "usdsoIntoVaults": "45000000000000000000",
+  "sttGas": "1562787660000000000",
   "txs": [
     {
       "step": "deployer → leader 10 USDso",
@@ -193,6 +193,36 @@
       "hash": "0x3105fc64b136633fe45b0030c05e5a94662c238a2c54f351eea2f3850b21110e",
       "gasWei": "461976000000000",
       "status": "reverted"
+    },
+    {
+      "step": "deployer → CLAUDE_LEADER 3 STT for gas",
+      "hash": "0x670b54514c2abd44bd7afc56d11cfba08d9fb7aa01a7fcaafae38ba331d72beb",
+      "gasWei": "2526000000000000",
+      "status": "success"
+    },
+    {
+      "step": "deployer → CLAUDE_LEADER 6 USDso",
+      "hash": "0x5660b734711a96d0860803208a6599e6d527c07cee4f2e4537edfdfc08bfc94b",
+      "gasWei": "1577022000000000",
+      "status": "success"
+    },
+    {
+      "step": "factory.createVault(\"Claude-led BTC\")",
+      "hash": "0xa2ee9f6cbed5f1c99bf50543909bc40de882be89d1ab1ce326c1661323d71a13",
+      "gasWei": "271222878000000000",
+      "status": "success"
+    },
+    {
+      "step": "CLAUDE_LEADER approves exactly 5 USDso",
+      "hash": "0x0a0396bde400b41e590108a829ec381322cd8767593e5789218f5fb02a04e303",
+      "gasWei": "1563606000000000",
+      "status": "success"
+    },
+    {
+      "step": "CLAUDE_LEADER deposits 5 USDso",
+      "hash": "0x975ad95272ede3790c7c31912b7a23b625cfd216bc4d9f61bfedc006fab279e1",
+      "gasWei": "11394570000000000",
+      "status": "success"
     }
   ]
 }
